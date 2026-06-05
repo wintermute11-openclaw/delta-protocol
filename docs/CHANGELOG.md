@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 7] - 2026-06-05
+- Player-Tod mit `player_died`- und `health_changed`-Signalen finalisiert.
+- Angriff, Bewegung und Waffenhandling werden nach Tod sauber deaktiviert.
+- Restart per R über `reload_current_scene()` ergänzt; Missionsstart dient als einfacher Checkpoint.
+- HUD um Game-Over-Overlay mit "MISSION FAILED" und Restart-Hinweis erweitert.
+- Exfil-Zone prüft jetzt defensiv, dass nur ein lebender Player die Mission abschliessen kann.
+
 ## [Phase 6] - 2026-06-05
 - MissionManager für Primärziel, Optionalziel, Exfil-Freigabe und Missionsabschluss ergänzt.
 - Interaktionsobjekte für Server-Terminal, LEDGER-7-Akte und Exfil-Zone als Area2D-Szenen erstellt.

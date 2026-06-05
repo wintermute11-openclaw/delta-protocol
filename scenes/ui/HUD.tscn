@@ -31,3 +31,29 @@ text = "Weapon: n/a"
 
 [node name="HealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 text = "Health: n/a"
+
+[node name="GameOverPanel" type="ColorRect" parent="."]
+visible = false
+offset_left = 332.0
+offset_top = 368.0
+offset_right = 1116.0
+offset_bottom = 560.0
+color = Color(0.0627451, 0.0627451, 0.0784314, 0.88)
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel"]
+offset_left = 188.0
+offset_top = 48.0
+offset_right = 612.0
+offset_bottom = 88.0
+text = "MISSION FAILED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="GameOverPanel"]
+offset_left = 124.0
+offset_top = 104.0
+offset_right = 676.0
+offset_bottom = 144.0
+text = "Press R to restart from checkpoint"
+horizontal_alignment = 1
+vertical_alignment = 1

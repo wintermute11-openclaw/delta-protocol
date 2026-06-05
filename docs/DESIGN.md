@@ -35,10 +35,20 @@ Missionsabschluss:
 - Maus-Zielen
 - Schleichen mit reduzierter Geschwindigkeit
 - Waffenwechsel zwischen MP5SD, Beretta M9 und Messer
-- Einfaches Stealth-System mit Sichtkegeln
 - Interaktion mit Missionsobjekten per E
+- Einfaches Stealth-System mit Sichtkegeln
 - Einfache Treffer- und Gesundheitslogik
 - Ein Missionsstart-Checkpoint
+
+## Health, Death und Checkpoint
+- Der Player hat 3 Health.
+- Guards verursachen Schaden über ihre bestehende Angriffslogik.
+- Bei 0 Health wechselt der Player einmalig in einen Dead-State.
+- Im Dead-State sind Bewegung und Angriff deaktiviert.
+- Das HUD zeigt dann "MISSION FAILED" und den Hinweis "Press R to restart from checkpoint".
+- R lädt die aktuelle Szene neu.
+- Der MVP-Checkpoint ist ausschliesslich der Missionsstart.
+- Es gibt keine Zwischen-Checkpoints, keine Savegames und keine Speicherdateien.
 
 ## Ausrüstung
 - MP5SD: schallgedämpft, leise, kein Sound-Alarm durch Schuss
@@ -60,6 +70,7 @@ Phasenstand:
 - Phase 4: Guards nutzen Sichtkegel, Raycast-Line-of-Sight sowie SUSPICIOUS, CHASE und ATTACK.
 - Phase 5: Globales Alarm-System verknüpft mehrere Guards und laute Ereignisse.
 - Phase 6: Missionsebene und Missionsziele laufen parallel zur bestehenden Guard-KI, ohne neue komplexe Teamlogik.
+- Phase 7: Guards respektieren Player-Tod weiterhin defensiv über `is_alive()`; keine neue KI-Komplexität.
 
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
@@ -100,13 +111,15 @@ MissionManager verwaltet:
 Interaktionsobjekte:
 - ServerTerminal: erfüllt das Primärziel
 - LedgerFile: erfüllt das Optionalziel
-- ExfilZone: beendet die Mission nur bei abgeschlossenem Primärziel
+- ExfilZone: beendet die Mission nur bei abgeschlossenem Primärziel und lebendem Player
 
 HUD-Status im MVP:
 - aktuelles Primärziel
 - Optionalziel [OPEN/DONE]
 - Mission ACTIVE/COMPLETE
 - Alarmstatus
+- Health
+- Game Over Overlay bei Tod
 
 ## Nicht-MVP-Scope
 - keine Teamsteuerung

@@ -17,10 +17,10 @@ Godot 4.x
 - 3: Messer auswählen
 - E: Interagieren mit Server, LEDGER-7 und Missionsobjekten
 - Shift oder Ctrl: langsamer / schleichend bewegen
+- R: Nach Tod Mission vom Start-Checkpoint neu laden
 
 Geplante spätere Steuerungserweiterungen:
 - N: Nachtsichtgerät umschalten
-- R: Mission nach Tod neu starten
 
 ## Projekt in Godot starten
 1. Godot 4.x öffnen.
@@ -42,6 +42,13 @@ Geplante spätere Steuerungserweiterungen:
 - Exfil: Dach-Exfil-Zone erreichen
 - Missionserfolg: Primärziel abschliessen und danach die Exfil-Zone betreten
 
+## Health, Death und Restart
+- Der Player hat 3 Health.
+- Guards verursachen Schaden, bis der Player fällt.
+- Bei 0 Health erscheint "MISSION FAILED".
+- Mit R wird die aktuelle Mission vom Start-Checkpoint neu geladen.
+- Der MVP-Checkpoint ist nur der Missionsstart; es gibt keine Zwischen-Checkpoints und keine Savegames.
+
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
@@ -50,3 +57,4 @@ Geplante spätere Steuerungserweiterungen:
 - Phase 4 abgeschlossen: Guards können den Spieler jetzt sehen, per Line-of-Sight prüfen, verfolgen und im Nah-/Mittelbereich angreifen.
 - Phase 5 abgeschlossen: Globales Alarm-System, Alarm-HUD und Verknüpfung mit Sichtkontakt sowie lauten Waffen vorhanden.
 - Phase 6 abgeschlossen: Mission-Level Silent Ledger mit Serverziel, Optionalziel LEDGER-7, Exfil-Zone und Missionsstatus im HUD vorhanden.
+- Phase 7 abgeschlossen: Game-Over-Anzeige, sauberer Tod und Restart per R vom Missionsstart sind vorhanden.

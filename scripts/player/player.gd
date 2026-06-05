@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal player_died
+signal health_changed(current_health: int, max_health: int)
+
 const BulletScene = preload("res://scenes/weapons/Bullet.tscn")
 const WeaponDataScript = preload("res://scripts/weapons/weapon.gd")
 
@@ -25,9 +28,14 @@ func _ready() -> void:
 	add_to_group("player")
 	_setup_weapons()
 	_equip_weapon(1)
+	emit_signal("health_changed", current_health, max_health)
 
 func _process(delta: float) -> void:
 	fire_cooldown = max(fire_cooldown - delta, 0.0)
+
+	if Input.is_action_just_pressed("restart") and is_dead:
+		get_tree().reload_current_scene()
+		return
 
 	if is_dead:
 		return
@@ -69,7 +77,7 @@ func _equip_weapon(slot: int) -> void:
 	current_weapon = weapons[slot]
 
 func _handle_attack_input() -> void:
-	if current_weapon == null:
+	if current_weapon == null or is_dead:
 		return
 
 	if Input.is_action_just_pressed("fire") and fire_cooldown <= 0.0:
@@ -79,7 +87,7 @@ func _handle_attack_input() -> void:
 			_fire_knife_attack()
 
 func _fire_bullet_weapon() -> void:
-	if not current_weapon.has_ammo():
+	if is_dead or not current_weapon.has_ammo():
 		return
 
 	var bullet := BulletScene.instantiate()
@@ -98,6 +106,9 @@ func _fire_bullet_weapon() -> void:
 		GameState.trigger_alarm("loud weapon fired")
 
 func _fire_knife_attack() -> void:
+	if is_dead:
+		return
+
 	var space_state := get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
 	shape.radius = current_weapon.range
@@ -120,21 +131,25 @@ func _fire_knife_attack() -> void:
 	fire_cooldown = current_weapon.fire_interval
 
 func take_damage(amount: int) -> void:
-	if is_dead:
+	if is_dead or amount <= 0:
 		return
 
 	current_health = max(current_health - amount, 0)
 	print("Player hit: ", current_health, "/", max_health)
 	body_visual.color = Color(0.866667, 0.556863, 0.556863, 1)
+	emit_signal("health_changed", current_health, max_health)
 
 	if current_health <= 0:
 		_enter_dead_state()
 
 func _enter_dead_state() -> void:
+	if is_dead:
+		return
 	is_dead = true
 	velocity = Vector2.ZERO
 	body_visual.color = Color(0.317647, 0.317647, 0.352941, 1)
 	print("Player down")
+	emit_signal("player_died")
 
 func is_alive() -> bool:
 	return not is_dead
