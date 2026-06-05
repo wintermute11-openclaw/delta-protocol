@@ -1,0 +1,12 @@
+; Engine configuration file.
+; Minimal Godot 4.x project file for Phase 0.
+
+config_version=5
+
+[application]
+config/name="Delta Protocol: Operation Silent Ledger"
+run/main_scene="res://scenes/main/Main.tscn"
+
+[rendering]
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"

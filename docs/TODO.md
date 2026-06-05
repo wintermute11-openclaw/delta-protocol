@@ -1,0 +1,19 @@
+# TODO
+
+## Phasen
+- [ ] Phase 1: Spielerbewegung, Maus-Zielen, Kamera, Wände/Kollision
+- [ ] Phase 2: Waffen, Kugeln, Munition, Treffer
+- [ ] Phase 3: Gegner mit Patrouillen und Health
+- [ ] Phase 4: Sichtkegel, Line-of-Sight, Entdeckung, Chase/Attack
+- [ ] Phase 5: Alarm-System mit Normal / Verdacht / Alarm
+- [ ] Phase 6: Mission Silent Ledger mit Bürogebäude, Serverziel, Optionalziel und Dach-Exfil
+- [ ] Phase 7: Spieler-Health, Tod, Game Over, Neustart ab Checkpoint
+- [ ] Phase 8: Nachtsichtgerät und Nachtatmosphäre
+- [ ] Phase 9: Platzhalter-Sounds
+- [ ] Phase 10: Bugfixing, README, Steuerung, Run-Anleitung, TODO aktualisieren
+
+## Bekannte offene Punkte
+- Finale Godot-Unterversion für die Entwicklung noch nicht festgelegt; Ziel bleibt Godot 4.x.
+- Für Phase 0 werden nur minimale Platzhalterdateien angelegt, noch keine Spiellogik.
+- Art-, Audio- und UI-Assets sind vorerst Platzhalter.
+- TODO bei Unsicherheiten bewusst klein halten und einfache Lösungen bevorzugen.
