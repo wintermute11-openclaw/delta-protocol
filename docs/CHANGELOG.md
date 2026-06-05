@@ -1,5 +1,11 @@
 # Changelog
 
+## [Phase 8] - 2026-06-05
+- GameState um globalen Nachtsichtstatus mit Toggle- und Signal-Logik erweitert.
+- HUD um dunkles Nacht-Overlay, grünes Nachtsicht-Overlay und Label für Night Vision ON/OFF erweitert.
+- Umschalten per N eingebunden; Mission startet defensiv mit deaktivierter Nachtsicht.
+- README, TODO und Design-Dokumentation für Nachtatmosphäre und Nachtsicht aktualisiert.
+
 ## [Phase 7] - 2026-06-05
 - Player-Tod mit `player_died`- und `health_changed`-Signalen finalisiert.
 - Angriff, Bewegung und Waffenhandling werden nach Tod sauber deaktiviert.

@@ -39,6 +39,7 @@ Missionsabschluss:
 - Einfaches Stealth-System mit Sichtkegeln
 - Einfache Treffer- und Gesundheitslogik
 - Ein Missionsstart-Checkpoint
+- Simples Nachtsichtgerät mit Overlay-Toggle
 
 ## Health, Death und Checkpoint
 - Der Player hat 3 Health.
@@ -49,6 +50,14 @@ Missionsabschluss:
 - R lädt die aktuelle Szene neu.
 - Der MVP-Checkpoint ist ausschliesslich der Missionsstart.
 - Es gibt keine Zwischen-Checkpoints, keine Savegames und keine Speicherdateien.
+
+## Nachtatmosphäre und Nachtsicht
+- Die Mission nutzt standardmässig eine dunkle Nachtstimmung über ein halbtransparentes dunkles Overlay.
+- Nachtsicht wird per Taste N umgeschaltet.
+- Aktivierte Nachtsicht reduziert die Dunkelheit und legt zusätzlich einen grünen Overlay über die Szene.
+- Das HUD zeigt Night Vision: OFF/ON.
+- Es gibt bewusst kein Batterie-, Energie- oder Cooldown-System im MVP.
+- Die Lösung nutzt einfache CanvasLayer-/ColorRect-Overlays und ist später leicht durch Shader oder echtes Lighting ersetzbar.
 
 ## Ausrüstung
 - MP5SD: schallgedämpft, leise, kein Sound-Alarm durch Schuss
@@ -71,6 +80,7 @@ Phasenstand:
 - Phase 5: Globales Alarm-System verknüpft mehrere Guards und laute Ereignisse.
 - Phase 6: Missionsebene und Missionsziele laufen parallel zur bestehenden Guard-KI, ohne neue komplexe Teamlogik.
 - Phase 7: Guards respektieren Player-Tod weiterhin defensiv über `is_alive()`; keine neue KI-Komplexität.
+- Phase 8: Nachtatmosphäre und Nachtsicht bleiben reine Darstellungs-/Lesbarkeitsfeatures ohne KI-Einfluss.
 
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
@@ -118,6 +128,7 @@ HUD-Status im MVP:
 - Optionalziel [OPEN/DONE]
 - Mission ACTIVE/COMPLETE
 - Alarmstatus
+- Night Vision OFF/ON
 - Health
 - Game Over Overlay bei Tod
 

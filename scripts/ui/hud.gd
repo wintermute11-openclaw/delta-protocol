@@ -1,9 +1,12 @@
 extends CanvasLayer
 
+@onready var dark_overlay: ColorRect = $DarkOverlay
+@onready var night_vision_overlay: ColorRect = $NightVisionOverlay
 @onready var objective_label: Label = $MarginContainer/VBoxContainer/ObjectiveLabel
 @onready var optional_label: Label = $MarginContainer/VBoxContainer/OptionalLabel
 @onready var mission_status_label: Label = $MarginContainer/VBoxContainer/MissionStatusLabel
 @onready var alarm_label: Label = $MarginContainer/VBoxContainer/AlarmLabel
+@onready var night_vision_label: Label = $MarginContainer/VBoxContainer/NightVisionLabel
 @onready var weapon_label: Label = $MarginContainer/VBoxContainer/WeaponLabel
 @onready var health_label: Label = $MarginContainer/VBoxContainer/HealthLabel
 @onready var game_over_panel: ColorRect = $GameOverPanel
@@ -18,16 +21,24 @@ func _ready() -> void:
 	mission_manager = get_tree().get_first_node_in_group("mission_manager")
 	if GameState != null and GameState.has_signal("alarm_state_changed"):
 		GameState.alarm_state_changed.connect(_on_alarm_state_changed)
+	if GameState != null and GameState.has_signal("night_vision_changed"):
+		GameState.night_vision_changed.connect(_on_night_vision_changed)
 	_connect_player_signals()
 	_connect_mission_signals()
 	game_over_panel.visible = false
 	game_over_label.text = "MISSION FAILED"
 	restart_label.text = "Press R to restart from checkpoint"
 	_update_alarm_label()
+	_update_night_vision_ui()
 	_update_player_labels()
 	_update_mission_labels()
+	_update_game_over_state()
 
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("night_vision"):
+		if player_ref == null or not player_ref.has_method("is_alive") or player_ref.is_alive():
+			GameState.toggle_night_vision()
+
 	if player_ref == null:
 		player_ref = get_tree().get_first_node_in_group("player")
 		_connect_player_signals()
@@ -57,6 +68,9 @@ func _connect_mission_signals() -> void:
 func _on_alarm_state_changed(_new_state: int, _reason: String) -> void:
 	_update_alarm_label()
 
+func _on_night_vision_changed(_enabled: bool) -> void:
+	_update_night_vision_ui()
+
 func _on_mission_updated() -> void:
 	_update_mission_labels()
 
@@ -71,6 +85,12 @@ func _on_health_changed(_current_health: int, _max_health: int) -> void:
 
 func _update_alarm_label() -> void:
 	alarm_label.text = "Alarm: %s" % GameState.get_alarm_state_name()
+
+func _update_night_vision_ui() -> void:
+	var enabled := GameState != null and GameState.night_vision_enabled
+	night_vision_label.text = "Night Vision: %s" % ("ON" if enabled else "OFF")
+	dark_overlay.color = Color(0.02, 0.04, 0.06, 0.5) if enabled else Color(0.01, 0.015, 0.03, 0.72)
+	night_vision_overlay.visible = enabled
 
 func _update_player_labels() -> void:
 	if player_ref == null:

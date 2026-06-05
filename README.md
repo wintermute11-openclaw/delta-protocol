@@ -17,10 +17,8 @@ Godot 4.x
 - 3: Messer auswählen
 - E: Interagieren mit Server, LEDGER-7 und Missionsobjekten
 - Shift oder Ctrl: langsamer / schleichend bewegen
+- N: Nachtsicht umschalten
 - R: Nach Tod Mission vom Start-Checkpoint neu laden
-
-Geplante spätere Steuerungserweiterungen:
-- N: Nachtsichtgerät umschalten
 
 ## Projekt in Godot starten
 1. Godot 4.x öffnen.
@@ -49,6 +47,13 @@ Geplante spätere Steuerungserweiterungen:
 - Mit R wird die aktuelle Mission vom Start-Checkpoint neu geladen.
 - Der MVP-Checkpoint ist nur der Missionsstart; es gibt keine Zwischen-Checkpoints und keine Savegames.
 
+## Nachtatmosphäre und Nachtsicht
+- Die Mission startet immer in einem dunklen Nachtmodus.
+- Ein dunkles HUD-Overlay erzeugt die Grund-Nachtstimmung.
+- Mit N wird ein einfaches Nachtsichtgerät umgeschaltet.
+- Nachtsicht reduziert die Dunkelheit und legt einen grünen Overlay über die Szene.
+- Es gibt bewusst kein Batterie- oder Energiesystem im MVP.
+
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
@@ -58,3 +63,4 @@ Geplante spätere Steuerungserweiterungen:
 - Phase 5 abgeschlossen: Globales Alarm-System, Alarm-HUD und Verknüpfung mit Sichtkontakt sowie lauten Waffen vorhanden.
 - Phase 6 abgeschlossen: Mission-Level Silent Ledger mit Serverziel, Optionalziel LEDGER-7, Exfil-Zone und Missionsstatus im HUD vorhanden.
 - Phase 7 abgeschlossen: Game-Over-Anzeige, sauberer Tod und Restart per R vom Missionsstart sind vorhanden.
+- Phase 8 abgeschlossen: Nacht-Overlay, Nachtsicht-Toggle per N und HUD-Anzeige für Night Vision ON/OFF sind vorhanden.

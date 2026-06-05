@@ -13,6 +13,7 @@ func _ready() -> void:
 	add_to_group("mission_manager")
 	if GameState != null:
 		GameState.reset_alarm()
+		GameState.set_night_vision_enabled(false)
 	_emit_update()
 
 func complete_primary_objective() -> void:

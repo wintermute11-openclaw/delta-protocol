@@ -1,6 +1,7 @@
 extends Node
 
 signal alarm_state_changed(new_state: int, reason: String)
+signal night_vision_changed(enabled: bool)
 
 enum AlarmState {
 	NORMAL,
@@ -11,6 +12,7 @@ enum AlarmState {
 var alarm_state: AlarmState = AlarmState.NORMAL
 var global_last_known_player_position: Vector2 = Vector2.ZERO
 var has_global_last_known_player_position: bool = false
+var night_vision_enabled: bool = false
 
 func set_alarm_state(new_state: AlarmState, reason: String = "") -> void:
 	if alarm_state == new_state:
@@ -45,3 +47,13 @@ func set_last_known_player_position(position: Vector2) -> void:
 func clear_last_known_player_position() -> void:
 	has_global_last_known_player_position = false
 	global_last_known_player_position = Vector2.ZERO
+
+func toggle_night_vision() -> void:
+	set_night_vision_enabled(not night_vision_enabled)
+
+func set_night_vision_enabled(value: bool) -> void:
+	if night_vision_enabled == value:
+		return
+	night_vision_enabled = value
+	print("Night vision -> ", "ON" if night_vision_enabled else "OFF")
+	emit_signal("night_vision_changed", night_vision_enabled)
