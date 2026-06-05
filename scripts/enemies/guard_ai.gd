@@ -29,6 +29,7 @@ var patrol_index: int = 0
 var suspicious_timer: float = 0.0
 var attack_timer: float = 0.0
 var last_known_player_position: Vector2 = Vector2.ZERO
+var has_last_known_player_position: bool = false
 var facing_direction: Vector2 = Vector2.RIGHT
 var player_ref: Node2D = null
 
@@ -62,15 +63,34 @@ func _physics_process(delta: float) -> void:
 	_update_vision_cone()
 
 func _patrol_state() -> void:
-	_patrol()
 	if _can_engage_player():
-		last_known_player_position = player_ref.global_position
+		_set_known_player_position(player_ref.global_position)
+		_trigger_global_alarm("player spotted")
 		_change_state(GuardState.CHASE)
+		return
+
+	if _is_global_alarm_active() and GameState.has_global_last_known_player_position:
+		_set_known_player_position(GameState.global_last_known_player_position)
+		_change_state(GuardState.SUSPICIOUS)
+		return
+
+	_patrol()
 
 func _suspicious_state(delta: float) -> void:
 	if _can_engage_player():
-		last_known_player_position = player_ref.global_position
+		_set_known_player_position(player_ref.global_position)
+		_trigger_global_alarm("player spotted")
 		_change_state(GuardState.CHASE)
+		return
+
+	if not has_last_known_player_position and _is_global_alarm_active() and GameState.has_global_last_known_player_position:
+		_set_known_player_position(GameState.global_last_known_player_position)
+
+	if not has_last_known_player_position:
+		velocity = Vector2.ZERO
+		suspicious_timer -= delta
+		if suspicious_timer <= 0.0:
+			_change_state(GuardState.PATROL)
 		return
 
 	var to_target := last_known_player_position - global_position
@@ -80,14 +100,19 @@ func _suspicious_state(delta: float) -> void:
 		velocity = Vector2.ZERO
 		suspicious_timer -= delta
 		if suspicious_timer <= 0.0:
+			has_last_known_player_position = false
 			_change_state(GuardState.PATROL)
 
 func _chase_state() -> void:
 	if not _can_engage_player():
+		if _is_global_alarm_active() and GameState.has_global_last_known_player_position:
+			_set_known_player_position(GameState.global_last_known_player_position)
+		if GameState != null and GameState.alarm_state != GameState.AlarmState.ALARM:
+			GameState.raise_suspicion("lost visual contact")
 		_change_state(GuardState.SUSPICIOUS)
 		return
 
-	last_known_player_position = player_ref.global_position
+	_set_known_player_position(player_ref.global_position)
 	var distance_to_player := global_position.distance_to(player_ref.global_position)
 	_face_towards(player_ref.global_position)
 
@@ -100,10 +125,14 @@ func _chase_state() -> void:
 
 func _attack_state() -> void:
 	if not _can_engage_player():
+		if _is_global_alarm_active() and GameState.has_global_last_known_player_position:
+			_set_known_player_position(GameState.global_last_known_player_position)
+		if GameState != null and GameState.alarm_state != GameState.AlarmState.ALARM:
+			GameState.raise_suspicion("lost visual contact")
 		_change_state(GuardState.SUSPICIOUS)
 		return
 
-	last_known_player_position = player_ref.global_position
+	_set_known_player_position(player_ref.global_position)
 	var distance_to_player := global_position.distance_to(player_ref.global_position)
 	_face_towards(player_ref.global_position)
 	velocity = Vector2.ZERO
@@ -208,6 +237,23 @@ func _update_vision_cone() -> void:
 	var left_point := forward.rotated(-half_angle) * vision_range
 	var right_point := forward.rotated(half_angle) * vision_range
 	vision_cone.polygon = PackedVector2Array([Vector2.ZERO, left_point, right_point])
+
+func _set_known_player_position(position: Vector2) -> void:
+	last_known_player_position = position
+	has_last_known_player_position = true
+	if GameState != null:
+		GameState.set_last_known_player_position(position)
+
+func _trigger_global_alarm(reason: String) -> void:
+	if GameState == null:
+		return
+	if reason == "player spotted":
+		GameState.trigger_alarm("player spotted")
+		return
+	GameState.trigger_alarm(reason)
+
+func _is_global_alarm_active() -> bool:
+	return GameState != null and GameState.alarm_state == GameState.AlarmState.ALARM
 
 func take_damage(amount: int) -> void:
 	if current_state == GuardState.DEAD:

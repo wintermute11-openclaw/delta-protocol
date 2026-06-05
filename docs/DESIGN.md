@@ -60,25 +60,28 @@ Verhaltensrahmen:
 - Sichtprüfung über Reichweite, Blickwinkel und freie Sichtlinie ohne Wandblocker
 - Untersuchung letzter bekannter Spielerposition bei Verdacht
 - Verfolgung und Angriff nach bestätigter Entdeckung
-- Keine komplexe Deckungs- oder Team-KI im MVP
+- Guards dürfen bei globalem Alarm die globale letzte bekannte Spielerposition als Suchziel nutzen
+- Keine Verstärkung, keine Deckungs-KI und keine komplexe Teamtaktik im MVP
 
 ## Alarm-System
 Globale Zustände:
-- Normal
-- Verdacht
-- Alarm
+- NORMAL
+- SUSPICIOUS
+- ALARM
 
 Auslöser:
-- Sichtkontakt im Sichtkegel
+- Sichtkontakt eines Guards mit dem Player
 - laute Schüsse der Beretta M9
+- Verlust von Sichtkontakt kann Verdacht aufrechterhalten, solange noch kein globaler Alarm aktiv ist
 
 Wirkung:
-- Gegner wechseln in Such-, Verfolgungs- oder Angriffsverhalten
 - HUD zeigt den aktuellen Alarmstatus an
+- Guards dürfen bei globalem Alarm ihre Suche auf die globale letzte bekannte Spielerposition ausrichten
+- Guards behalten trotzdem einfache lokale CHASE/ATTACK-Logik pro Instanz
 
 Hinweis:
-- Ein einzelner Guard darf in Phase 4 bereits lokal entdecken, verfolgen und angreifen.
-- Ein globaler Alarmstatus für mehrere Gegner kommt erst in Phase 5.
+- MP5SD bleibt akustisch leise und löst keinen Alarm durch Sound aus.
+- Phase 5 enthält bewusst keine Verstärkung, Funklogik, Deckung oder Leichenentdeckung.
 
 ## Nicht-MVP-Scope
 - keine Teamsteuerung

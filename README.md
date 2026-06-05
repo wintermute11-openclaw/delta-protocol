@@ -28,9 +28,17 @@ Geplante spätere Steuerungserweiterungen:
 3. /home/claw/delta_protocol/project.godot auswählen.
 4. Projekt starten oder direkt die Hauptszene `scenes/main/Main.tscn` ausführen.
 
+## Alarm-Verhalten im aktuellen MVP
+- Alarmstatus kennt drei Zustände: NORMAL, SUSPICIOUS, ALARM.
+- Beretta M9 löst globalen Alarm durch Schussgeräusch aus.
+- MP5SD löst durch Sound keinen Alarm aus.
+- Sichtkontakt eines Guards mit dem Player löst globalen Alarm aus.
+- Guards können auf globalen Alarm reagieren und zur letzten bekannten Spielerposition suchen.
+
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
 - Phase 2 abgeschlossen: Waffenwechsel, Kugeln, Munition, Messerangriff und Dummy-Ziele für Kampftests vorhanden.
 - Phase 3 abgeschlossen: Guards mit Health, DEAD-Zustand und einfachen Patrouillenrouten im Testlevel vorhanden.
 - Phase 4 abgeschlossen: Guards können den Spieler jetzt sehen, per Line-of-Sight prüfen, verfolgen und im Nah-/Mittelbereich angreifen.
+- Phase 5 abgeschlossen: Globales Alarm-System, Alarm-HUD und Verknüpfung mit Sichtkontakt sowie lauten Waffen vorhanden.

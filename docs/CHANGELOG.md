@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 5] - 2026-06-05
+- Globales GameState-Autoload mit Alarmzuständen NORMAL, SUSPICIOUS und ALARM ergänzt.
+- Guards melden Sichtkontakt jetzt an das globale Alarm-System und nutzen globale letzte Spielerpositionen als Suchziel.
+- Laute Schüsse der Beretta M9 lösen Alarm aus; MP5SD und Messer bleiben akustisch leise.
+- Kleines HUD mit Alarmstatus sowie Debug-Anzeige für Waffe und Health ergänzt.
+- README, TODO und Design-Dokumentation für den Phase-5-Stand aktualisiert.
+
 ## [Phase 4] - 2026-06-05
 - Player um einfache Schadens- und Dead-Logik erweitert, damit Guards angreifen können.
 - Guard-KI um Sichtkegel, Line-of-Sight-Raycast, SUSPICIOUS, CHASE und ATTACK erweitert.

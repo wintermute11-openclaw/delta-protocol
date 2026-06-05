@@ -7,6 +7,9 @@ config_version=5
 config/name="Delta Protocol: Operation Silent Ledger"
 run/main_scene="res://scenes/main/Main.tscn"
 
+[autoload]
+GameState="*res://scripts/autoload/game_state.gd"
+
 [input]
 move_up={
 "deadzone": 0.5,

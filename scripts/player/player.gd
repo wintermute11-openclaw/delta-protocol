@@ -93,6 +93,10 @@ func _fire_bullet_weapon() -> void:
 	current_weapon.consume_ammo()
 	fire_cooldown = current_weapon.fire_interval
 
+	if current_weapon.loud and GameState != null:
+		GameState.set_last_known_player_position(global_position)
+		GameState.trigger_alarm("loud weapon fired")
+
 func _fire_knife_attack() -> void:
 	var space_state := get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
@@ -144,3 +148,6 @@ func get_weapon_status_text() -> String:
 		current_weapon.ammo_text(),
 		"yes" if current_weapon.loud else "no"
 	]
+
+func get_health_status_text() -> String:
+	return "%s/%s" % [current_health, max_health]
