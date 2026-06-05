@@ -50,6 +50,11 @@ Geplante einfache State Machine:
 - ATTACK
 - DEAD
 
+Phasenstand:
+- Phase 3: Guards nutzen PATROL und DEAD.
+- Phase 4: Sichtkegel, Line-of-Sight und Entdeckung aktivieren SUSPICIOUS/CHASE-Vorbereitung.
+- Phase 5: Alarm-System verknüpft laute Ereignisse und erkannte Bedrohungen.
+
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
 - Untersuchung letzter bekannter Spielerposition bei Verdacht

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/DummyTarget.tscn" id="2_dummy"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Guard.tscn" id="3_guard"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
 size = Vector2(1216, 32)
@@ -133,3 +134,15 @@ position = Vector2(1072, 664)
 
 [node name="DummyTargetC" parent="DummyTargets" instance=ExtResource("2_dummy")]
 position = Vector2(496, 632)
+
+[node name="Guards" type="Node2D" parent="."]
+
+[node name="GuardA" parent="Guards" instance=ExtResource("3_guard")]
+position = Vector2(688, 704)
+patrol_points = Array[Vector2]([Vector2(688, 704), Vector2(1040, 704), Vector2(1040, 632), Vector2(688, 632)])
+patrol_speed = 72.0
+
+[node name="GuardB" parent="Guards" instance=ExtResource("3_guard")]
+position = Vector2(240, 120)
+patrol_points = Array[Vector2]([Vector2(240, 120), Vector2(528, 120), Vector2(528, 176), Vector2(240, 176)])
+patrol_speed = 66.0

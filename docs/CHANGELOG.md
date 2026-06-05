@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 3] - 2026-06-05
+- Guard-Szene und Guard-State-Machine mit vorbereiteten Zuständen PATROL, SUSPICIOUS, CHASE, ATTACK und DEAD ergänzt.
+- In Phase 3 werden nur PATROL und DEAD aktiv genutzt; spätere Zustände sind im Code markiert.
+- Guards erhalten Health, `take_damage(amount)` und wechseln bei 0 Health in einen deaktivierten DEAD-Zustand.
+- Main-Szene um zwei patrouillierende Guard-Instanzen mit festen Wegpunktrouten erweitert.
+- README, TODO und Design-Hinweise für den Phase-3-Stand aktualisiert.
+
 ## [Phase 2] - 2026-06-05
 - Input-Map um Feuer- und Waffenwechsel-Actions erweitert.
 - Bullet-Szene und Bullet-Skript für Projektilbewegung, Lebenszeit und defensive Trefferlogik erstellt.
