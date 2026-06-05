@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 4] - 2026-06-05
+- Player um einfache Schadens- und Dead-Logik erweitert, damit Guards angreifen können.
+- Guard-KI um Sichtkegel, Line-of-Sight-Raycast, SUSPICIOUS, CHASE und ATTACK erweitert.
+- Guards verfolgen den Spieler jetzt lokal pro Instanz, ohne globales Alarm-System.
+- Halbtransparenter VisionCone als Debug-Darstellung für Guard-Sicht ergänzt.
+- README, TODO und Design-Dokumentation für den Phase-4-Stand aktualisiert.
+
 ## [Phase 3] - 2026-06-05
 - Guard-Szene und Guard-State-Machine mit vorbereiteten Zuständen PATROL, SUSPICIOUS, CHASE, ATTACK und DEAD ergänzt.
 - In Phase 3 werden nur PATROL und DEAD aktiv genutzt; spätere Zustände sind im Code markiert.

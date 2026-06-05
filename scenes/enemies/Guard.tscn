@@ -10,6 +10,11 @@ script = ExtResource("1_script")
 collision_layer = 1
 collision_mask = 1
 
+[node name="VisionCone" type="Polygon2D" parent="."]
+color = Color(0.980392, 0.917647, 0.262745, 0.18)
+polygon = PackedVector2Array(0, 0, 220, -50, 220, 50)
+z_index = -1
+
 [node name="Visual" type="Polygon2D" parent="."]
 color = Color(0.454902, 0.52549, 0.623529, 1)
 polygon = PackedVector2Array(16, 0, -10, -10, -4, 0, -10, 10)

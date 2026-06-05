@@ -52,11 +52,12 @@ Geplante einfache State Machine:
 
 Phasenstand:
 - Phase 3: Guards nutzen PATROL und DEAD.
-- Phase 4: Sichtkegel, Line-of-Sight und Entdeckung aktivieren SUSPICIOUS/CHASE-Vorbereitung.
-- Phase 5: Alarm-System verknüpft laute Ereignisse und erkannte Bedrohungen.
+- Phase 4: Guards nutzen Sichtkegel, Raycast-Line-of-Sight sowie SUSPICIOUS, CHASE und ATTACK.
+- Phase 5: Globales Alarm-System verknüpft mehrere Guards und laute Ereignisse.
 
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
+- Sichtprüfung über Reichweite, Blickwinkel und freie Sichtlinie ohne Wandblocker
 - Untersuchung letzter bekannter Spielerposition bei Verdacht
 - Verfolgung und Angriff nach bestätigter Entdeckung
 - Keine komplexe Deckungs- oder Team-KI im MVP
@@ -74,6 +75,10 @@ Auslöser:
 Wirkung:
 - Gegner wechseln in Such-, Verfolgungs- oder Angriffsverhalten
 - HUD zeigt den aktuellen Alarmstatus an
+
+Hinweis:
+- Ein einzelner Guard darf in Phase 4 bereits lokal entdecken, verfolgen und angreifen.
+- Ein globaler Alarmstatus für mehrere Gegner kommt erst in Phase 5.
 
 ## Nicht-MVP-Scope
 - keine Teamsteuerung

@@ -5,28 +5,43 @@ const WeaponDataScript = preload("res://scripts/weapons/weapon.gd")
 
 @export var normal_speed: float = 160.0
 @export var slow_speed: float = 80.0
+@export var max_health: int = 3
 
 @onready var camera: Camera2D = $Camera2D
 @onready var muzzle: Marker2D = $Muzzle
 @onready var knife_origin: Marker2D = $KnifeOrigin
+@onready var body_visual: Polygon2D = $Body
 
 var weapons: Dictionary = {}
 var current_weapon_slot: int = 1
 var current_weapon: WeaponData
 var fire_cooldown: float = 0.0
+var current_health: int = 0
+var is_dead: bool = false
 
 func _ready() -> void:
 	camera.enabled = true
+	current_health = max_health
+	add_to_group("player")
 	_setup_weapons()
 	_equip_weapon(1)
 
 func _process(delta: float) -> void:
 	fire_cooldown = max(fire_cooldown - delta, 0.0)
+
+	if is_dead:
+		return
+
 	look_at(get_global_mouse_position())
 	_handle_weapon_switch()
 	_handle_attack_input()
 
 func _physics_process(_delta: float) -> void:
+	if is_dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var current_speed := slow_speed if Input.is_action_pressed("slow_move") else normal_speed
 
@@ -79,7 +94,6 @@ func _fire_bullet_weapon() -> void:
 	fire_cooldown = current_weapon.fire_interval
 
 func _fire_knife_attack() -> void:
-	var hit_target := false
 	var space_state := get_world_2d().direct_space_state
 	var shape := CircleShape2D.new()
 	shape.radius = current_weapon.range
@@ -93,14 +107,33 @@ func _fire_knife_attack() -> void:
 
 	for result in space_state.intersect_shape(query, 8):
 		var collider: Object = result.get("collider")
+		if collider == self:
+			continue
 		if collider != null and collider.has_method("take_damage"):
 			collider.take_damage(current_weapon.damage)
-			hit_target = true
 			break
 
 	fire_cooldown = current_weapon.fire_interval
-	if hit_target:
+
+func take_damage(amount: int) -> void:
+	if is_dead:
 		return
+
+	current_health = max(current_health - amount, 0)
+	print("Player hit: ", current_health, "/", max_health)
+	body_visual.color = Color(0.866667, 0.556863, 0.556863, 1)
+
+	if current_health <= 0:
+		_enter_dead_state()
+
+func _enter_dead_state() -> void:
+	is_dead = true
+	velocity = Vector2.ZERO
+	body_visual.color = Color(0.317647, 0.317647, 0.352941, 1)
+	print("Player down")
+
+func is_alive() -> bool:
+	return not is_dead
 
 func get_weapon_status_text() -> String:
 	if current_weapon == null:
