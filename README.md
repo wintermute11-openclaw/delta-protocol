@@ -8,9 +8,12 @@ Ein einzelner spielbarer Infiltrationseinsatz in einem Bürogebäude bei Nacht: 
 ## Benötigte Godot-Version
 Godot 4.x
 
-## Geplante Steuerung
-- WASD: Bewegung
-- Maus: Zielen
+## Steuerung
+- WASD oder Pfeiltasten: Bewegung
+- Maus: Zielen / Ausrichtung des Operators
+- Shift oder Ctrl: langsamer / schleichend bewegen
+
+Geplante spätere Steuerungserweiterungen:
 - Linke Maustaste: Schiessen / Angriff
 - 1: MP5SD
 - 2: Beretta M9
@@ -18,7 +21,13 @@ Godot 4.x
 - E: Interagieren
 - N: Nachtsichtgerät umschalten
 - R: Mission nach Tod neu starten
-- Shift oder Ctrl: langsamer / schleichend bewegen
+
+## Projekt in Godot starten
+1. Godot 4.x öffnen.
+2. Import wählen.
+3. /home/claw/delta_protocol/project.godot auswählen.
+4. Projekt starten oder direkt die Hauptszene `scenes/main/Main.tscn` ausführen.
 
 ## Aktueller Status
-Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
+- Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
+- Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.

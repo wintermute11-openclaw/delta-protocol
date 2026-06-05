@@ -1,7 +1,7 @@
 # TODO
 
 ## Phasen
-- [ ] Phase 1: Spielerbewegung, Maus-Zielen, Kamera, Wände/Kollision
+- [x] Phase 1: Spielerbewegung, Maus-Zielen, Kamera, Wände/Kollision
 - [ ] Phase 2: Waffen, Kugeln, Munition, Treffer
 - [ ] Phase 3: Gegner mit Patrouillen und Health
 - [ ] Phase 4: Sichtkegel, Line-of-Sight, Entdeckung, Chase/Attack
@@ -14,6 +14,7 @@
 
 ## Bekannte offene Punkte
 - Finale Godot-Unterversion für die Entwicklung noch nicht festgelegt; Ziel bleibt Godot 4.x.
-- Für Phase 0 werden nur minimale Platzhalterdateien angelegt, noch keine Spiellogik.
+- Noch keine Waffen-, Gegner-, Alarm- oder Missionslogik implementiert; das ist absichtlich ausserhalb von Phase 1.
 - Art-, Audio- und UI-Assets sind vorerst Platzhalter.
+- Prüfen, ob die manuell gepflegte Input-Map und die minimalen .tscn-Dateien in der verwendeten Godot-4.x-Version ohne Nacharbeit laden.
 - TODO bei Unsicherheiten bewusst klein halten und einfache Lösungen bevorzugen.
