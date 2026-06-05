@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/DummyTarget.tscn" id="2_dummy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
 size = Vector2(1216, 32)
@@ -121,3 +122,14 @@ shape = SubResource("RectangleShape2D_vertical_block")
 [node name="Visual" type="Polygon2D" parent="Walls/StorageLocker"]
 color = Color(0.341176, 0.384314, 0.423529, 1)
 polygon = PackedVector2Array(-16, -112, 16, -112, 16, 112, -16, 112)
+
+[node name="DummyTargets" type="Node2D" parent="."]
+
+[node name="DummyTargetA" parent="DummyTargets" instance=ExtResource("2_dummy")]
+position = Vector2(736, 152)
+
+[node name="DummyTargetB" parent="DummyTargets" instance=ExtResource("2_dummy")]
+position = Vector2(1072, 664)
+
+[node name="DummyTargetC" parent="DummyTargets" instance=ExtResource("2_dummy")]
+position = Vector2(496, 632)

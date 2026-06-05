@@ -11,13 +11,13 @@ Godot 4.x
 ## Steuerung
 - WASD oder Pfeiltasten: Bewegung
 - Maus: Zielen / Ausrichtung des Operators
+- Linke Maustaste: Angriff / Schuss
+- 1: MP5SD auswählen
+- 2: Beretta M9 auswählen
+- 3: Messer auswählen
 - Shift oder Ctrl: langsamer / schleichend bewegen
 
 Geplante spätere Steuerungserweiterungen:
-- Linke Maustaste: Schiessen / Angriff
-- 1: MP5SD
-- 2: Beretta M9
-- 3: Messer
 - E: Interagieren
 - N: Nachtsichtgerät umschalten
 - R: Mission nach Tod neu starten
@@ -31,3 +31,4 @@ Geplante spätere Steuerungserweiterungen:
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
+- Phase 2 abgeschlossen: Waffenwechsel, Kugeln, Munition, Messerangriff und Dummy-Ziele für Kampftests vorhanden.

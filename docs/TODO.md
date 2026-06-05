@@ -2,7 +2,7 @@
 
 ## Phasen
 - [x] Phase 1: Spielerbewegung, Maus-Zielen, Kamera, Wände/Kollision
-- [ ] Phase 2: Waffen, Kugeln, Munition, Treffer
+- [x] Phase 2: Waffen, Kugeln, Munition, Treffer
 - [ ] Phase 3: Gegner mit Patrouillen und Health
 - [ ] Phase 4: Sichtkegel, Line-of-Sight, Entdeckung, Chase/Attack
 - [ ] Phase 5: Alarm-System mit Normal / Verdacht / Alarm
@@ -14,7 +14,8 @@
 
 ## Bekannte offene Punkte
 - Finale Godot-Unterversion für die Entwicklung noch nicht festgelegt; Ziel bleibt Godot 4.x.
-- Noch keine Waffen-, Gegner-, Alarm- oder Missionslogik implementiert; das ist absichtlich ausserhalb von Phase 1.
+- Noch keine Gegner-KI, Sichtkegel, Alarm- oder Missionslogik implementiert; das ist absichtlich ausserhalb von Phase 2.
+- Es gibt noch kein richtiges HUD; Waffenstatus wird aktuell nur intern vorbereitet.
 - Art-, Audio- und UI-Assets sind vorerst Platzhalter.
-- Prüfen, ob die manuell gepflegte Input-Map und die minimalen .tscn-Dateien in der verwendeten Godot-4.x-Version ohne Nacharbeit laden.
+- Prüfen, ob die manuell gepflegte Input-Map und die .tscn-Dateien in der verwendeten Godot-4.x-Version ohne Nacharbeit laden.
 - TODO bei Unsicherheiten bewusst klein halten und einfache Lösungen bevorzugen.
