@@ -15,10 +15,10 @@ Godot 4.x
 - 1: MP5SD auswählen
 - 2: Beretta M9 auswählen
 - 3: Messer auswählen
+- E: Interagieren mit Server, LEDGER-7 und Missionsobjekten
 - Shift oder Ctrl: langsamer / schleichend bewegen
 
 Geplante spätere Steuerungserweiterungen:
-- E: Interagieren
 - N: Nachtsichtgerät umschalten
 - R: Mission nach Tod neu starten
 
@@ -35,6 +35,13 @@ Geplante spätere Steuerungserweiterungen:
 - Sichtkontakt eines Guards mit dem Player löst globalen Alarm aus.
 - Guards können auf globalen Alarm reagieren und zur letzten bekannten Spielerposition suchen.
 
+## Mission: Operation Silent Ledger
+- Startpunkt: Hintereingang
+- Primärziel: KRONOS-Server im Serverraum benutzen und Daten kopieren
+- Optionalziel: LEDGER-7 im Sicherheitsbüro sichern
+- Exfil: Dach-Exfil-Zone erreichen
+- Missionserfolg: Primärziel abschliessen und danach die Exfil-Zone betreten
+
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
@@ -42,3 +49,4 @@ Geplante spätere Steuerungserweiterungen:
 - Phase 3 abgeschlossen: Guards mit Health, DEAD-Zustand und einfachen Patrouillenrouten im Testlevel vorhanden.
 - Phase 4 abgeschlossen: Guards können den Spieler jetzt sehen, per Line-of-Sight prüfen, verfolgen und im Nah-/Mittelbereich angreifen.
 - Phase 5 abgeschlossen: Globales Alarm-System, Alarm-HUD und Verknüpfung mit Sichtkontakt sowie lauten Waffen vorhanden.
+- Phase 6 abgeschlossen: Mission-Level Silent Ledger mit Serverziel, Optionalziel LEDGER-7, Exfil-Zone und Missionsstatus im HUD vorhanden.

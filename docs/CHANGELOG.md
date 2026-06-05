@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 6] - 2026-06-05
+- MissionManager für Primärziel, Optionalziel, Exfil-Freigabe und Missionsabschluss ergänzt.
+- Interaktionsobjekte für Server-Terminal, LEDGER-7-Akte und Exfil-Zone als Area2D-Szenen erstellt.
+- Neues Missionslevel `SilentLedger.tscn` mit Hintereingang, Empfang, Grossraumbüro, Sicherheitsbüro, Serverraum, Treppenhaus und Dach-Exfil aufgebaut.
+- HUD um Missionsstatus, Optionalziel-Status und Missionsabschluss-Anzeige erweitert.
+- Main-Szene auf das neue Missionslevel umgestellt und Dokumentation für Phase 6 aktualisiert.
+
 ## [Phase 5] - 2026-06-05
 - Globales GameState-Autoload mit Alarmzuständen NORMAL, SUSPICIOUS und ALARM ergänzt.
 - Guards melden Sichtkontakt jetzt an das globale Alarm-System und nutzen globale letzte Spielerpositionen als Suchziel.

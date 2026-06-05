@@ -16,8 +16,8 @@ Missionsziele:
 2. Optionalziel: Akte LEDGER-7 im Sicherheitsbüro sichern
 3. Exfiltration: Dach-Exfil-Zone erreichen
 
-Geplante Levelbereiche:
-- Hintereingang
+Räume / Bereiche im MVP-Level:
+- Hintereingang als Startpunkt
 - Empfang
 - Grossraumbüro
 - Sicherheitsbüro
@@ -25,13 +25,18 @@ Geplante Levelbereiche:
 - Treppenhaus
 - Dach-Exfil-Zone
 
+Missionsabschluss:
+- Das Primärziel schaltet Exfil frei.
+- Das Optionalziel ist separat und nicht zwingend für den Erfolg.
+- Die Mission gilt als abgeschlossen, wenn der Player nach dem Primärziel die Exfil-Zone erreicht.
+
 ## Kernmechaniken
 - 2D Top-Down-Bewegung
 - Maus-Zielen
 - Schleichen mit reduzierter Geschwindigkeit
 - Waffenwechsel zwischen MP5SD, Beretta M9 und Messer
 - Einfaches Stealth-System mit Sichtkegeln
-- Interaktion mit Missionsobjekten
+- Interaktion mit Missionsobjekten per E
 - Einfache Treffer- und Gesundheitslogik
 - Ein Missionsstart-Checkpoint
 
@@ -54,6 +59,7 @@ Phasenstand:
 - Phase 3: Guards nutzen PATROL und DEAD.
 - Phase 4: Guards nutzen Sichtkegel, Raycast-Line-of-Sight sowie SUSPICIOUS, CHASE und ATTACK.
 - Phase 5: Globales Alarm-System verknüpft mehrere Guards und laute Ereignisse.
+- Phase 6: Missionsebene und Missionsziele laufen parallel zur bestehenden Guard-KI, ohne neue komplexe Teamlogik.
 
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
@@ -82,6 +88,25 @@ Wirkung:
 Hinweis:
 - MP5SD bleibt akustisch leise und löst keinen Alarm durch Sound aus.
 - Phase 5 enthält bewusst keine Verstärkung, Funklogik, Deckung oder Leichenentdeckung.
+
+## Missionssystem
+MissionManager verwaltet:
+- primary_objective_complete
+- optional_objective_complete
+- exfil_available
+- mission_complete
+- current_objective_text
+
+Interaktionsobjekte:
+- ServerTerminal: erfüllt das Primärziel
+- LedgerFile: erfüllt das Optionalziel
+- ExfilZone: beendet die Mission nur bei abgeschlossenem Primärziel
+
+HUD-Status im MVP:
+- aktuelles Primärziel
+- Optionalziel [OPEN/DONE]
+- Mission ACTIVE/COMPLETE
+- Alarmstatus
 
 ## Nicht-MVP-Scope
 - keine Teamsteuerung

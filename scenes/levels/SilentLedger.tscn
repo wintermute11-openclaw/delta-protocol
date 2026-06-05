@@ -1,0 +1,234 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Guard.tscn" id="2_guard"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/mission/mission_manager.gd" id="4_mission"]
+[ext_resource type="PackedScene" path="res://scenes/levels/objects/ServerTerminal.tscn" id="5_server"]
+[ext_resource type="PackedScene" path="res://scenes/levels/objects/LedgerFile.tscn" id="6_ledger"]
+[ext_resource type="PackedScene" path="res://scenes/levels/objects/ExfilZone.tscn" id="7_exfil"]
+
+[sub_resource type="RectangleShape2D" id="Rect_outer_h"]
+size = Vector2(1664, 32)
+
+[sub_resource type="RectangleShape2D" id="Rect_outer_v"]
+size = Vector2(32, 1088)
+
+[sub_resource type="RectangleShape2D" id="Rect_partition_long"]
+size = Vector2(640, 32)
+
+[sub_resource type="RectangleShape2D" id="Rect_partition_tall"]
+size = Vector2(32, 352)
+
+[sub_resource type="RectangleShape2D" id="Rect_small_h"]
+size = Vector2(288, 32)
+
+[sub_resource type="RectangleShape2D" id="Rect_stair_block"]
+size = Vector2(160, 32)
+
+[node name="SilentLedger" type="Node2D"]
+
+[node name="Background" type="Polygon2D" parent="."]
+color = Color(0.0666667, 0.0823529, 0.101961, 1)
+polygon = PackedVector2Array(0, 0, 1664, 0, 1664, 1088, 0, 1088)
+
+[node name="InteriorFloor" type="Polygon2D" parent="."]
+color = Color(0.0980392, 0.121569, 0.145098, 1)
+polygon = PackedVector2Array(64, 64, 1600, 64, 1600, 1024, 64, 1024)
+
+[node name="RoofFloor" type="Polygon2D" parent="."]
+color = Color(0.0784314, 0.129412, 0.105882, 1)
+polygon = PackedVector2Array(1184, 64, 1600, 64, 1600, 256, 1184, 256)
+
+[node name="MissionManager" type="Node" parent="."]
+script = ExtResource("4_mission")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(144, 944)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(832, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall"]
+shape = SubResource("Rect_outer_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/TopWall"]
+color = Color(0.290196, 0.329412, 0.364706, 1)
+polygon = PackedVector2Array(-832, -16, 832, -16, 832, 16, -832, 16)
+
+[node name="BottomWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(832, 1072)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/BottomWall"]
+shape = SubResource("Rect_outer_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/BottomWall"]
+color = Color(0.290196, 0.329412, 0.364706, 1)
+polygon = PackedVector2Array(-832, -16, 832, -16, 832, 16, -832, 16)
+
+[node name="LeftWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(16, 544)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
+shape = SubResource("Rect_outer_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/LeftWall"]
+color = Color(0.290196, 0.329412, 0.364706, 1)
+polygon = PackedVector2Array(-16, -544, 16, -544, 16, 544, -16, 544)
+
+[node name="RightWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(1648, 544)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
+shape = SubResource("Rect_outer_v")
+
+[node name="Visual" type="Polygon2D" parent="Walls/RightWall"]
+color = Color(0.290196, 0.329412, 0.364706, 1)
+polygon = PackedVector2Array(-16, -544, 16, -544, 16, 544, -16, 544)
+
+[node name="ReceptionBarrier" type="StaticBody2D" parent="Walls"]
+position = Vector2(400, 288)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/ReceptionBarrier"]
+shape = SubResource("Rect_small_h")
+
+[node name="Visual" type="Polygon2D" parent="Walls/ReceptionBarrier"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-144, -16, 144, -16, 144, 16, -144, 16)
+
+[node name="SecurityOfficeWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(624, 496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/SecurityOfficeWall"]
+shape = SubResource("Rect_partition_long")
+
+[node name="Visual" type="Polygon2D" parent="Walls/SecurityOfficeWall"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-320, -16, 320, -16, 320, 16, -320, 16)
+
+[node name="ServerRoomWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(1104, 496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/ServerRoomWall"]
+shape = SubResource("Rect_partition_long")
+
+[node name="Visual" type="Polygon2D" parent="Walls/ServerRoomWall"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-320, -16, 320, -16, 320, 16, -320, 16)
+
+[node name="CenterDivider" type="StaticBody2D" parent="Walls"]
+position = Vector2(784, 704)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/CenterDivider"]
+shape = SubResource("Rect_partition_tall")
+
+[node name="Visual" type="Polygon2D" parent="Walls/CenterDivider"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-16, -176, 16, -176, 16, 176, -16, 176)
+
+[node name="StairwellLeftWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(1184, 816)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StairwellLeftWall"]
+shape = SubResource("Rect_partition_tall")
+
+[node name="Visual" type="Polygon2D" parent="Walls/StairwellLeftWall"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-16, -176, 16, -176, 16, 176, -16, 176)
+
+[node name="StairLanding" type="StaticBody2D" parent="Walls"]
+position = Vector2(1376, 656)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StairLanding"]
+shape = SubResource("Rect_stair_block")
+
+[node name="Visual" type="Polygon2D" parent="Walls/StairLanding"]
+color = Color(0.337255, 0.380392, 0.419608, 1)
+polygon = PackedVector2Array(-80, -16, 80, -16, 80, 16, -80, 16)
+
+[node name="ServerRackA" type="StaticBody2D" parent="Walls"]
+position = Vector2(1120, 720)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/ServerRackA"]
+shape = SubResource("Rect_partition_tall")
+
+[node name="Visual" type="Polygon2D" parent="Walls/ServerRackA"]
+color = Color(0.25098, 0.345098, 0.4, 1)
+polygon = PackedVector2Array(-16, -176, 16, -176, 16, 176, -16, 176)
+
+[node name="ServerRackB" type="StaticBody2D" parent="Walls"]
+position = Vector2(1376, 720)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/ServerRackB"]
+shape = SubResource("Rect_partition_tall")
+
+[node name="Visual" type="Polygon2D" parent="Walls/ServerRackB"]
+color = Color(0.25098, 0.345098, 0.4, 1)
+polygon = PackedVector2Array(-16, -176, 16, -176, 16, 176, -16, 176)
+
+[node name="RoomLabels" type="Node2D" parent="."]
+
+[node name="LabelEntrance" type="Label" parent="RoomLabels"]
+position = Vector2(96, 984)
+text = "Rear Entrance"
+
+[node name="LabelReception" type="Label" parent="RoomLabels"]
+position = Vector2(248, 168)
+text = "Reception"
+
+[node name="LabelOpenOffice" type="Label" parent="RoomLabels"]
+position = Vector2(464, 760)
+text = "Open Office"
+
+[node name="LabelSecurity" type="Label" parent="RoomLabels"]
+position = Vector2(384, 560)
+text = "Security Office"
+
+[node name="LabelServer" type="Label" parent="RoomLabels"]
+position = Vector2(1072, 560)
+text = "Server Room"
+
+[node name="LabelStairs" type="Label" parent="RoomLabels"]
+position = Vector2(1232, 816)
+text = "Stairwell"
+
+[node name="LabelRoof" type="Label" parent="RoomLabels"]
+position = Vector2(1280, 112)
+text = "Roof Exfil"
+
+[node name="MissionObjects" type="Node2D" parent="."]
+
+[node name="ServerTerminal" parent="MissionObjects" instance=ExtResource("5_server")]
+position = Vector2(1472, 848)
+
+[node name="LedgerFile" parent="MissionObjects" instance=ExtResource("6_ledger")]
+position = Vector2(400, 624)
+
+[node name="ExfilZone" parent="MissionObjects" instance=ExtResource("7_exfil")]
+position = Vector2(1408, 160)
+
+[node name="Guards" type="Node2D" parent="."]
+
+[node name="GuardEntrance" parent="Guards" instance=ExtResource("2_guard")]
+position = Vector2(288, 880)
+patrol_points = Array[Vector2]([Vector2(288, 880), Vector2(624, 880), Vector2(624, 976), Vector2(288, 976)])
+patrol_speed = 70.0
+
+[node name="GuardSecurity" parent="Guards" instance=ExtResource("2_guard")]
+position = Vector2(464, 608)
+patrol_points = Array[Vector2]([Vector2(464, 608), Vector2(656, 608), Vector2(656, 752), Vector2(464, 752)])
+patrol_speed = 68.0
+
+[node name="GuardServer" parent="Guards" instance=ExtResource("2_guard")]
+position = Vector2(1232, 816)
+patrol_points = Array[Vector2]([Vector2(1232, 816), Vector2(1504, 816), Vector2(1504, 944), Vector2(1232, 944)])
+patrol_speed = 74.0
+
+[node name="GuardReception" parent="Guards" instance=ExtResource("2_guard")]
+position = Vector2(288, 176)
+patrol_points = Array[Vector2]([Vector2(288, 176), Vector2(640, 176), Vector2(640, 352), Vector2(288, 352)])
+patrol_speed = 64.0
