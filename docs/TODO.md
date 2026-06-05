@@ -1,6 +1,7 @@
 # TODO
 
 ## Phasen
+- [x] Phase 0: Projektstruktur, README, DESIGN, TODO, CHANGELOG
 - [x] Phase 1: Spielerbewegung, Maus-Zielen, Kamera, Wände/Kollision
 - [x] Phase 2: Waffen, Kugeln, Munition, Treffer
 - [x] Phase 3: Gegner mit Patrouillen und Health
@@ -10,15 +11,24 @@
 - [x] Phase 7: Spieler-Health, Tod, Game Over, Neustart ab Checkpoint
 - [x] Phase 8: Nachtsichtgerät und Nachtatmosphäre
 - [x] Phase 9: Platzhalter-Sounds
-- [ ] Phase 10: Bugfixing, README, Steuerung, Run-Anleitung, TODO aktualisieren
+- [x] Phase 10: Bugfixing, statische Konsistenzprüfung und Abschlussdokumentation
 
-## Bekannte offene Punkte
-- Finale Godot-Unterversion für die Entwicklung noch nicht festgelegt; Ziel bleibt Godot 4.x.
-- Das HUD zeigt Mission, Alarm, Night Vision, Waffe, Health und Game Over jetzt funktional, aber noch nicht als finale UI.
-- Art-, Audio- und UI-Assets sind vorerst Platzhalter.
-- Prüfen, ob die manuell gepflegte Input-Map, Autoload-Konfiguration, Missionsobjekte, Audiodateien und die .tscn-Dateien in der verwendeten Godot-4.x-Version ohne Nacharbeit laden.
-- Der MVP-Checkpoint ist absichtlich nur der Missionsstart; keine Zwischen-Checkpoints und keine Savegames.
-- Der Nacht-/Nachtsicht-Look nutzt bewusst einfache ColorRect-Overlays statt finaler Shader- oder Lighting-Lösungen.
-- Die Audio-Implementation nutzt globales Playback ohne Spatial Audio, Mixer-Presets oder finale Lautheitsabstimmung.
-- Exfil-Zone schliesst die Mission aktuell direkt beim Betreten ab, sobald das Primärziel erledigt ist; bewusst simpel für das MVP.
-- TODO bei Unsicherheiten bewusst klein halten und einfache Lösungen bevorzugen.
+## Offene technische Punkte nach MVP-Abschluss
+- Echte Godot-Laufzeitprüfung lokal durchführen
+- Overlay dynamisch an Viewport-Grösse und UI-Skalierung anpassen
+- Collision Layers und Masks sauberer trennen
+- Guard-Navigation langfristig robuster gestalten
+- Finalere Pixel-Art und konsistentere Umgebungsoptik erstellen
+- Finale Soundeffekte statt Platzhalter-WAVs einsetzen
+- HUD visuell überarbeiten und besser layouten
+- Balancing für Guard-Sicht, Schaden, Feuer-Intervalle und Munition testen
+- Eventuelle Godot-Syntax-, Import- oder Szenenfehler nach erstem Engine-Test beheben
+
+## Bekannte MVP-Einschränkungen
+- Godot ist auf dem Hermes-System nicht installiert; daher war nur statische Prüfung möglich.
+- Das HUD ist funktional, aber noch keine finale UI.
+- Art-, Audio- und UI-Assets sind weiterhin Platzhalter.
+- Der MVP-Checkpoint bleibt absichtlich auf den Missionsstart beschränkt.
+- Nachtsicht nutzt einen einfachen Overlay-Ansatz statt finalem Lighting.
+- Audio nutzt globales Playback ohne Spatial Audio oder finale Lautheitsabstimmung.
+- Exfil schliesst die Mission bewusst direkt ab, sobald das Primärziel erledigt ist.

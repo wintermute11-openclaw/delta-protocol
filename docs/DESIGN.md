@@ -1,23 +1,19 @@
-# Delta Protocol: Operation Silent Ledger — Design
+# Delta Protocol: Operation Silent Ledger - Design
 
-## Spielkonzept
-Delta Protocol ist ein 2D-Top-Down-Stealth-Action-Spiel mit kompaktem MVP-Fokus. Der Spieler übernimmt einen einzelnen Delta-Operator und absolviert genau eine nächtliche Black-Ops-Mission in einem Bürogebäude.
+## High Concept
+Delta Protocol: Operation Silent Ledger ist ein kompaktes 2D-Top-Down-Stealth-Action-MVP in Godot 4.x. Der Spieler übernimmt einen einzelnen Delta-Operator und infiltriert nachts ein Bürogebäude der Tarnfirma KRONOS Financial Systems, um sensible Serverdaten zu kopieren, optional LEDGER-7 zu sichern und über das Dach zu exfiltrieren.
 
 ## Setting
-- Zeitraum und Ton: spätes 80er- / frühes 90er-Feeling
-- Ort: Tarnfirma KRONOS Financial Systems
-- Atmosphäre: Nacht, geringe Sicht, kühle Corporate-Umgebung, taktische Infiltration
+- spätes 80er- / frühes 90er-Feeling
+- nächtliche Black-Ops-Atmosphäre
+- kühle Corporate-Umgebung
+- militärisch-taktischer Ton statt Arcade-Inszenierung
 
-## Mission: Operation Silent Ledger
-Ziel der Mission ist der verdeckte Einstieg über den Hintereingang, das Erreichen des Serverraums, das Kopieren sensibler Daten und die anschliessende Exfiltration über das Dach.
+## Operation Silent Ledger
+Die komplette MVP-Erfahrung besteht aus genau einer Mission. Sie beginnt am Hintereingang, führt durch Empfang, Grossraumbüro, Sicherheitsbüro und Serverraum, zwingt zu vorsichtigem Vorgehen gegen patrouillierende Guards und endet an einer Dach-Exfil-Zone.
 
-Missionsziele:
-1. Primärziel: Daten vom KRONOS-Server kopieren
-2. Optionalziel: Akte LEDGER-7 im Sicherheitsbüro sichern
-3. Exfiltration: Dach-Exfil-Zone erreichen
-
-Räume / Bereiche im MVP-Level:
-- Hintereingang als Startpunkt
+## Levelbereiche
+- Hintereingang
 - Empfang
 - Grossraumbüro
 - Sicherheitsbüro
@@ -25,82 +21,55 @@ Räume / Bereiche im MVP-Level:
 - Treppenhaus
 - Dach-Exfil-Zone
 
-Missionsabschluss:
-- Das Primärziel schaltet Exfil frei.
-- Das Optionalziel ist separat und nicht zwingend für den Erfolg.
-- Die Mission gilt als abgeschlossen, wenn der Player nach dem Primärziel die Exfil-Zone erreicht.
-
-## Kernmechaniken
+## Player
+- ein einzelner spielbarer Operator
 - 2D Top-Down-Bewegung
 - Maus-Zielen
-- Schleichen mit reduzierter Geschwindigkeit
-- Waffenwechsel zwischen MP5SD, Beretta M9 und Messer
-- Interaktion mit Missionsobjekten per E
-- Einfaches Stealth-System mit Sichtkegeln
-- Einfache Treffer- und Gesundheitslogik
-- Ein Missionsstart-Checkpoint
-- Simples Nachtsichtgerät mit Overlay-Toggle
-- Globales Platzhalter-Audiofeedback
+- normales und langsames Schleichen
+- Interaktion per E
+- Nachtsicht per N
+- Neustart nach Tod per R
 
-## Health, Death und Checkpoint
-- Der Player hat 3 Health.
-- Guards verursachen Schaden über ihre bestehende Angriffslogik.
-- Bei 0 Health wechselt der Player einmalig in einen Dead-State.
-- Im Dead-State sind Bewegung und Angriff deaktiviert.
-- Das HUD zeigt dann "MISSION FAILED" und den Hinweis "Press R to restart from checkpoint".
-- R lädt die aktuelle Szene neu.
-- Der MVP-Checkpoint ist ausschliesslich der Missionsstart.
-- Es gibt keine Zwischen-Checkpoints, keine Savegames und keine Speicherdateien.
-
-## Nachtatmosphäre und Nachtsicht
-- Die Mission nutzt standardmässig eine dunkle Nachtstimmung über ein halbtransparentes dunkles Overlay.
-- Nachtsicht wird per Taste N umgeschaltet.
-- Aktivierte Nachtsicht reduziert die Dunkelheit und legt zusätzlich einen grünen Overlay über die Szene.
-- Das HUD zeigt Night Vision: OFF/ON.
-- Es gibt bewusst kein Batterie-, Energie- oder Cooldown-System im MVP.
-- Die Lösung nutzt einfache CanvasLayer-/ColorRect-Overlays und ist später leicht durch Shader oder echtes Lighting ersetzbar.
-
-## Audio
-- AudioManager läuft als globales Autoload und spielt globale Platzhalter-Sounds über AudioStreamPlayer ab.
-- MP5SD nutzt einen kurzen leisen Platzhalter-Schuss-Sound.
-- Beretta M9 nutzt einen lauteren Platzhalter-Schuss-Sound.
-- Treffer auf Guards, DummyTargets und den Player lösen einen Hit-Sound aus.
-- Ein Zustandswechsel auf ALARM löst einmalig einen Alarm-Sound aus.
-- Erfolgreiche Interaktion mit ServerTerminal und LedgerFile löst optional einen simplen Interaktions-Sound aus.
-- Alle Audiodateien sind bewusst nur temporäre WAV-Platzhalter unter `assets/audio/sfx/` und später ersetzbar.
-- Es gibt kein komplexes Mixing, keine Musikproduktion und kein Spatial Audio im MVP.
-
-## Ausrüstung
-- MP5SD: schallgedämpft, leise, kein Sound-Alarm durch Schuss
-- Beretta M9: laut, Schüsse lösen Alarm aus
-- Messer: leise Nahkampfwaffe
-- Datenkopiergerät: Interaktion für das Primärziel
-- Nachtsichtgerät: einfacher grüner Overlay- oder Helligkeitsmodus
+## Waffen
+- MP5SD
+  - schallgedämpft
+  - nutzt Munition
+  - löst keinen Sound-Alarm aus
+- Beretta M9
+  - laut
+  - nutzt Munition
+  - löst Alarm aus
+- Messer
+  - leiser Nahkampfangriff
+  - keine Munition
 
 ## Gegner-KI
-Geplante einfache State Machine:
+Guards nutzen eine einfache State Machine:
 - PATROL
 - SUSPICIOUS
 - CHASE
 - ATTACK
 - DEAD
 
-Phasenstand:
-- Phase 3: Guards nutzen PATROL und DEAD.
-- Phase 4: Guards nutzen Sichtkegel, Raycast-Line-of-Sight sowie SUSPICIOUS, CHASE und ATTACK.
-- Phase 5: Globales Alarm-System verknüpft mehrere Guards und laute Ereignisse.
-- Phase 6: Missionsebene und Missionsziele laufen parallel zur bestehenden Guard-KI, ohne neue komplexe Teamlogik.
-- Phase 7: Guards respektieren Player-Tod weiterhin defensiv über `is_alive()`; keine neue KI-Komplexität.
-- Phase 8: Nachtatmosphäre und Nachtsicht bleiben reine Darstellungs-/Lesbarkeitsfeatures ohne KI-Einfluss.
-- Phase 9: Audio ergänzt nur Feedback, ohne neue KI-, Missions- oder Waffenlogik.
-
-Verhaltensrahmen:
+MVP-Verhalten:
 - Patrouille zwischen festen Wegpunkten
-- Sichtprüfung über Reichweite, Blickwinkel und freie Sichtlinie ohne Wandblocker
-- Untersuchung letzter bekannter Spielerposition bei Verdacht
-- Verfolgung und Angriff nach bestätigter Entdeckung
-- Guards dürfen bei globalem Alarm die globale letzte bekannte Spielerposition als Suchziel nutzen
-- Keine Verstärkung, keine Deckungs-KI und keine komplexe Teamtaktik im MVP
+- Wechsel in SUSPICIOUS bei Verlust von Sichtkontakt oder globalem Alarmkontext
+- Wechsel in CHASE bei bestätigter Entdeckung
+- ATTACK im Nah- bis Mittelbereich
+- DEAD bei 0 Health
+
+Bewusst nicht im MVP:
+- keine Deckungs-KI
+- keine Verstärkung
+- keine Teamkoordination
+- keine Leichenentdeckung
+- keine komplexe Navigation
+
+## Sichtsystem
+- Guards besitzen Sichtkegel
+- Entdeckung erfolgt nur innerhalb von Reichweite und Blickwinkel
+- Wände blockieren Line-of-Sight
+- Sichtprüfung läuft über Raycast gegen die Weltkollision
 
 ## Alarm-System
 Globale Zustände:
@@ -109,41 +78,78 @@ Globale Zustände:
 - ALARM
 
 Auslöser:
-- Sichtkontakt eines Guards mit dem Player
-- laute Schüsse der Beretta M9
-- Verlust von Sichtkontakt kann Verdacht aufrechterhalten, solange noch kein globaler Alarm aktiv ist
+- Guard sieht den Player
+- Beretta M9 wird abgefeuert
 
 Wirkung:
-- HUD zeigt den aktuellen Alarmstatus an
-- Guards dürfen bei globalem Alarm ihre Suche auf die globale letzte bekannte Spielerposition ausrichten
-- Guards behalten trotzdem einfache lokale CHASE/ATTACK-Logik pro Instanz
-- AudioManager spielt beim Wechsel auf ALARM einmalig einen Alarm-Platzhalter-Sound
+- HUD zeigt Alarmstatus an
+- Guards dürfen globale letzte bekannte Spielerpositionen als Suchziel nutzen
+- Alarm-Sound wird einmalig beim Wechsel auf ALARM abgespielt
 
-Hinweis:
-- MP5SD bleibt akustisch leise genug, um keinen Sound-Alarm auszulösen.
-- Phase 5 enthält bewusst keine Verstärkung, Funklogik, Deckung oder Leichenentdeckung.
-
-## Missionssystem
-MissionManager verwaltet:
+## MissionManager
+MissionManager verwaltet den Missionsfluss:
 - primary_objective_complete
 - optional_objective_complete
 - exfil_available
 - mission_complete
 - current_objective_text
 
-Interaktionsobjekte:
-- ServerTerminal: erfüllt das Primärziel
-- LedgerFile: erfüllt das Optionalziel
-- ExfilZone: beendet die Mission nur bei abgeschlossenem Primärziel und lebendem Player
+Zusätzlich setzt er beim Missionsstart den Alarm zurück und deaktiviert Nachtsicht defensiv.
 
-HUD-Status im MVP:
+## Objectives
+Primärziel:
+- KRONOS-Serverdaten kopieren
+
+Optionalziel:
+- LEDGER-7 sichern
+
+Abschluss:
+- Nach Primärziel die Dach-Exfil-Zone erreichen
+
+## Health, Death und Restart
+- Player hat 3 Health
+- Guards verursachen Schaden über ihre Attack-Logik
+- Guards sterben nach wenig Treffern
+- Bei 0 Health wechselt der Player in einen Dead-State
+- Das HUD zeigt MISSION FAILED
+- R lädt die aktuelle Szene neu
+- Checkpoint ist nur der Missionsstart
+- keine Savegames
+- keine Mid-Mission-Checkpoints
+
+## Nachtsicht
+- Grundszene startet dunkel
+- ein dunkles Overlay erzeugt Nachtstimmung
+- N schaltet Nachtsicht um
+- Nachtsicht reduziert Dunkelheit und blendet grünes Overlay ein
+- kein Batterie-System
+- kein Energie-System
+- leicht ersetzbar durch spätere Shader- oder Lighting-Lösungen
+
+## Audio
+- AudioManager als globales Autoload
+- Platzhalter-WAVs unter assets/audio/sfx/
+- Sounds für:
+  - MP5SD
+  - Beretta M9
+  - Treffer
+  - Alarm
+  - Interaktion
+- kein Spatial Audio
+- kein komplexes Mixing
+- keine Musikproduktion im MVP
+- alle Sounds sind bewusst ersetzbare Platzhalter
+
+## HUD
+HUD zeigt mindestens:
 - aktuelles Primärziel
-- Optionalziel [OPEN/DONE]
-- Mission ACTIVE/COMPLETE
+- Optionalziel-Status
+- Missionsstatus
 - Alarmstatus
 - Night Vision OFF/ON
+- aktuelle Waffe
 - Health
-- Game Over Overlay bei Tod
+- Game Over Overlay
 
 ## Nicht-MVP-Scope
 - keine Teamsteuerung
@@ -155,3 +161,14 @@ HUD-Status im MVP:
 - kein Level-Editor
 - kein komplexes Ballistiksystem
 - kein Dialogsystem
+- kein Save-System
+
+## Spätere Erweiterungen
+- echte lokale Godot-Laufzeitvalidierung
+- Guard-Navigation über robustere Pfadlogik
+- sauberere Collision Layer und Masken
+- dynamische UI- und Overlay-Skalierung
+- finalere Pixel-Art
+- finale Soundeffekte und Mixing
+- Balancing von Sichtkegeln, Schaden und Munition
+- zusätzliche Missionen erst nach Stabilisierung des ersten Einsatzes

@@ -1,5 +1,25 @@
 # Changelog
 
+## [Phase 10] - 2026-06-05
+- Abschlussprüfung des MVP auf Projektstruktur, Szenenpfade, Scriptreferenzen, Autoloads, Input Actions und Audio-Dateien durchgeführt.
+- README finalisiert: Startanleitung, Steuerung, Missionsziele, Feature-Umfang und Einschränkungen klar dokumentiert.
+- DESIGN.md auf einen sauberen MVP-Stand gebracht, inklusive High Concept, Systeme, Nicht-MVP-Scope und spätere Erweiterungen.
+- TODO.md aufgeräumt und auf MVP-Abschluss mit offenen technischen Restpunkten umgestellt.
+- TESTING.md mit manueller Godot-Checkliste für den ersten Live-Test ergänzt.
+- MVP strukturell statisch geprüft; echter Laufzeittest in Godot steht noch aus, weil Godot auf dem Hermes-System nicht installiert ist.
+
+MVP-Featureliste:
+- eine spielbare Mission: Operation Silent Ledger
+- Player-Bewegung, Zielen und Waffenwechsel
+- MP5SD, Beretta M9 und Messer
+- Guards mit Patrouille, Sichtkegel, Chase und Attack
+- globales Alarm-System
+- Missionsziele mit Serverdaten, LEDGER-7 und Dach-Exfil
+- Health, Death, Game Over und Restart
+- Nachtatmosphäre und Nachtsicht
+- Platzhalter-Audio
+- HUD für Ziele, Alarm, Night Vision, Weapon und Health
+
 ## [Phase 9] - 2026-06-05
 - AudioManager als Autoload ergänzt und mit globalen AudioStreamPlayern für MP5SD, Beretta, Hit, Alarm und Interact ausgestattet.
 - Platzhalter-WAV-Dateien für Waffen-, Treffer-, Alarm- und Interaktionsfeedback unter `assets/audio/sfx/` erzeugt.

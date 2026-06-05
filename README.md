@@ -1,73 +1,89 @@
 # Delta Protocol: Operation Silent Ledger
 
-Ein spielbares MVP eines 2D-Top-Down-Stealth-Action-Spiels in Godot 4.x mit Black-Ops-Militärthriller-Feeling der späten 80er/frühen 90er.
+Delta Protocol: Operation Silent Ledger ist ein spielbares MVP eines 2D-Top-Down-Stealth-Action-Spiels in Godot 4.x. Der Fokus liegt auf einer einzigen kompakten Black-Ops-Mission: nachts in das KRONOS-Finanzgebäude eindringen, Serverdaten kopieren, optional LEDGER-7 sichern und über das Dach exfiltrieren.
 
-## MVP-Ziel
-Ein einzelner spielbarer Infiltrationseinsatz in einem Bürogebäude bei Nacht: Daten vom KRONOS-Server kopieren, optional LEDGER-7 sichern und über das Dach exfiltrieren.
+## MVP-Status
+Der strukturelle MVP-Umfang ist implementiert und statisch geprüft. Eine echte Laufzeitprüfung in Godot konnte auf diesem Hermes-System nicht durchgeführt werden, weil keine Godot-Installation verfügbar ist.
 
-## Benötigte Godot-Version
+## Godot-Version
 Godot 4.x
 
-## Steuerung
-- WASD oder Pfeiltasten: Bewegung
-- Maus: Zielen / Ausrichtung des Operators
-- Linke Maustaste: Angriff / Schuss
-- 1: MP5SD auswählen
-- 2: Beretta M9 auswählen
-- 3: Messer auswählen
-- E: Interagieren mit Server, LEDGER-7 und Missionsobjekten
-- Shift oder Ctrl: langsamer / schleichend bewegen
-- N: Nachtsicht umschalten
-- R: Nach Tod Mission vom Start-Checkpoint neu laden
-
-## Projekt in Godot starten
+## Projekt starten
 1. Godot 4.x öffnen.
 2. Import wählen.
 3. /home/claw/delta_protocol/project.godot auswählen.
-4. Projekt starten oder direkt die Hauptszene `scenes/main/Main.tscn` ausführen.
+4. Projekt importieren.
+5. Entweder das Projekt per Play starten oder direkt scenes/main/Main.tscn ausführen.
 
-## Alarm-Verhalten im aktuellen MVP
-- Alarmstatus kennt drei Zustände: NORMAL, SUSPICIOUS, ALARM.
-- Beretta M9 löst globalen Alarm durch Schussgeräusch aus.
-- MP5SD löst durch Sound keinen Alarm aus.
-- Sichtkontakt eines Guards mit dem Player löst globalen Alarm aus.
-- Guards können auf globalen Alarm reagieren und zur letzten bekannten Spielerposition suchen.
+## Steuerung
+- WASD oder Pfeiltasten: Bewegung
+- Shift oder Ctrl: langsam / schleichend bewegen
+- Maus: Zielen
+- Linksklick: Schiessen / Angriff
+- 1: MP5SD
+- 2: Beretta M9
+- 3: Messer
+- E: Interagieren
+- N: Nachtsicht umschalten
+- R: Nach Tod Mission vom Start-Checkpoint neu laden
 
-## Mission: Operation Silent Ledger
-- Startpunkt: Hintereingang
-- Primärziel: KRONOS-Server im Serverraum benutzen und Daten kopieren
+## Missionsziele
+- Primärziel: Serverdaten im KRONOS-Serverraum kopieren
 - Optionalziel: LEDGER-7 im Sicherheitsbüro sichern
 - Exfil: Dach-Exfil-Zone erreichen
-- Missionserfolg: Primärziel abschliessen und danach die Exfil-Zone betreten
 
-## Health, Death und Restart
-- Der Player hat 3 Health.
-- Guards verursachen Schaden, bis der Player fällt.
-- Bei 0 Health erscheint "MISSION FAILED".
-- Mit R wird die aktuelle Mission vom Start-Checkpoint neu geladen.
-- Der MVP-Checkpoint ist nur der Missionsstart; es gibt keine Zwischen-Checkpoints und keine Savegames.
+## Gameplay-Systeme im MVP
+- Stealth-Grundgerüst mit Sichtkegeln und verdeckter Infiltration
+- Guard-Sichtprüfung mit Line-of-Sight gegen Wände
+- Alarm-System mit NORMAL, SUSPICIOUS und ALARM
+- Waffenwechsel zwischen MP5SD, Beretta M9 und Messer
+- Player-Health, Tod, Game-Over und Neustart ab Missionsstart
+- Nachtsicht per Overlay-Toggle
+- Platzhalter-Audio für Schüsse, Treffer, Alarm und Interaktion
+- HUD mit Objective-, Alarm-, Health-, Weapon- und Night-Vision-Anzeige
 
-## Nachtatmosphäre und Nachtsicht
-- Die Mission startet immer in einem dunklen Nachtmodus.
-- Ein dunkles HUD-Overlay erzeugt die Grund-Nachtstimmung.
-- Mit N wird ein einfaches Nachtsichtgerät umgeschaltet.
-- Nachtsicht reduziert die Dunkelheit und legt einen grünen Overlay über die Szene.
-- Es gibt bewusst kein Batterie- oder Energiesystem im MVP.
+## Missionsablauf im MVP
+1. Über den Hintereingang starten.
+2. Den Serverraum erreichen.
+3. KRONOS-Daten kopieren.
+4. Optional LEDGER-7 sichern.
+5. Das Dach erreichen und exfiltrieren.
 
-## Platzhalter-Audio
-- Es gibt einfache globale Platzhalter-Sounds für MP5SD, Beretta M9, Treffer und Alarm.
-- Erfolgreiche Server-/LEDGER-Interaktionen nutzen ebenfalls einen simplen Interaktions-Sound.
-- Alle Sounds sind bewusst nur temporäre Beeps/Noise-Platzhalter und später leicht ersetzbar.
-- Es gibt keine Musik, kein komplexes Mixing und kein Spatial Audio im MVP.
+## Aktueller Feature-Stand nach Phasen
+- Phase 0: Projektstruktur, Grunddateien und Basisdokumentation
+- Phase 1: Bewegung, Kamera, Kollisionen
+- Phase 2: Waffen, Kugeln, Munition, Messer, Treffer
+- Phase 3: Patrouillierende Guards mit Health
+- Phase 4: Sichtkegel, Entdeckung, Chase und Attack
+- Phase 5: Globales Alarm-System
+- Phase 6: Mission Silent Ledger mit Zielen und Exfil
+- Phase 7: Health, Death, Game Over, Restart
+- Phase 8: Nachtatmosphäre und Nachtsicht
+- Phase 9: Platzhalter-Audio
+- Phase 10: Abschlussdokumentation, statische Konsistenzprüfung und kleine Robustheitsprüfung
 
-## Aktueller Status
-- Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
-- Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
-- Phase 2 abgeschlossen: Waffenwechsel, Kugeln, Munition, Messerangriff und Dummy-Ziele für Kampftests vorhanden.
-- Phase 3 abgeschlossen: Guards mit Health, DEAD-Zustand und einfachen Patrouillenrouten im Testlevel vorhanden.
-- Phase 4 abgeschlossen: Guards können den Spieler jetzt sehen, per Line-of-Sight prüfen, verfolgen und im Nah-/Mittelbereich angreifen.
-- Phase 5 abgeschlossen: Globales Alarm-System, Alarm-HUD und Verknüpfung mit Sichtkontakt sowie lauten Waffen vorhanden.
-- Phase 6 abgeschlossen: Mission-Level Silent Ledger mit Serverziel, Optionalziel LEDGER-7, Exfil-Zone und Missionsstatus im HUD vorhanden.
-- Phase 7 abgeschlossen: Game-Over-Anzeige, sauberer Tod und Restart per R vom Missionsstart sind vorhanden.
-- Phase 8 abgeschlossen: Nacht-Overlay, Nachtsicht-Toggle per N und HUD-Anzeige für Night Vision ON/OFF sind vorhanden.
-- Phase 9 abgeschlossen: AudioManager, Platzhalter-Waffensounds, Treffer-Sound, Alarm-Sound und Interaktions-Sound sind vorhanden.
+## Bekannte Einschränkungen
+- Keine Laufzeitprüfung in Godot auf dem Hermes-System
+- Keine visuelle Prüfung der Szenen auf diesem System
+- Keine Importprüfung der WAV-Dateien in der Engine auf diesem System
+- Platzhaltergrafik statt finaler Pixel-Art
+- Platzhaltersounds statt finaler Soundeffekte
+- Einfache Guard-KI ohne Deckung, Verstärkung oder Leichenentdeckung
+- Simples Nachtsicht-Overlay statt finalem Lighting- oder Shader-System
+- Kein Save-System
+- Checkpoint nur am Missionsstart
+- Collision Layers und Navigation sind noch bewusst simpel gehalten
+
+## Wichtige Projektdateien
+- project.godot
+- scenes/main/Main.tscn
+- scenes/levels/SilentLedger.tscn
+- scenes/player/Player.tscn
+- scenes/enemies/Guard.tscn
+- scenes/ui/HUD.tscn
+- scripts/autoload/game_state.gd
+- scripts/autoload/audio_manager.gd
+- scripts/mission/mission_manager.gd
+
+## Weiterer manueller Test in Godot
+Eine konkrete Checkliste für den ersten lokalen Engine-Test steht in docs/TESTING.md.
