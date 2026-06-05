@@ -256,11 +256,13 @@ func _is_global_alarm_active() -> bool:
 	return GameState != null and GameState.alarm_state == GameState.AlarmState.ALARM
 
 func take_damage(amount: int) -> void:
-	if current_state == GuardState.DEAD:
+	if current_state == GuardState.DEAD or amount <= 0:
 		return
 
 	current_health -= amount
 	visual.color = Color(0.529412, 0.176471, 0.176471, 1)
+	if AudioManager != null:
+		AudioManager.play_hit()
 
 	if current_health <= 0:
 		_enter_dead_state()

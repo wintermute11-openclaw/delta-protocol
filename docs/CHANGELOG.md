@@ -1,5 +1,12 @@
 # Changelog
 
+## [Phase 9] - 2026-06-05
+- AudioManager als Autoload ergänzt und mit globalen AudioStreamPlayern für MP5SD, Beretta, Hit, Alarm und Interact ausgestattet.
+- Platzhalter-WAV-Dateien für Waffen-, Treffer-, Alarm- und Interaktionsfeedback unter `assets/audio/sfx/` erzeugt.
+- Player, Guards, DummyTarget und Missionsinteraktionen mit defensiven AudioManager-Aufrufen verbunden.
+- Alarm-Sound wird jetzt einmalig beim Zustandswechsel auf ALARM ausgelöst.
+- README, TODO und Design-Dokumentation für Platzhalter-Audio aktualisiert.
+
 ## [Phase 8] - 2026-06-05
 - GameState um globalen Nachtsichtstatus mit Toggle- und Signal-Logik erweitert.
 - HUD um dunkles Nacht-Overlay, grünes Nachtsicht-Overlay und Label für Night Vision ON/OFF erweitert.

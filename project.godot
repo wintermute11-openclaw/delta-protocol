@@ -9,6 +9,7 @@ run/main_scene="res://scenes/main/Main.tscn"
 
 [autoload]
 GameState="*res://scripts/autoload/game_state.gd"
+AudioManager="*res://scripts/autoload/audio_manager.gd"
 
 [input]
 move_up={

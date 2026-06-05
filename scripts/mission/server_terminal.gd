@@ -21,6 +21,8 @@ func _process(_delta: float) -> void:
 		is_complete = true
 		visual.color = Color(0.235294, 0.6, 0.352941, 1)
 		interaction_label.text = "SERVER DATA COPIED"
+		if AudioManager != null:
+			AudioManager.play_interact()
 		print("Server terminal used")
 
 func _on_body_entered(body: Node) -> void:

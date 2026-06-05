@@ -21,6 +21,8 @@ func _process(_delta: float) -> void:
 		is_collected = true
 		visual.color = Color(0.631373, 0.584314, 0.192157, 1)
 		interaction_label.text = "LEDGER-7 SECURED"
+		if AudioManager != null:
+			AudioManager.play_interact()
 		print("Ledger file secured")
 
 func _on_body_entered(body: Node) -> void:

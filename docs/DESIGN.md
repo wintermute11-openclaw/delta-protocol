@@ -40,6 +40,7 @@ Missionsabschluss:
 - Einfache Treffer- und Gesundheitslogik
 - Ein Missionsstart-Checkpoint
 - Simples Nachtsichtgerät mit Overlay-Toggle
+- Globales Platzhalter-Audiofeedback
 
 ## Health, Death und Checkpoint
 - Der Player hat 3 Health.
@@ -58,6 +59,16 @@ Missionsabschluss:
 - Das HUD zeigt Night Vision: OFF/ON.
 - Es gibt bewusst kein Batterie-, Energie- oder Cooldown-System im MVP.
 - Die Lösung nutzt einfache CanvasLayer-/ColorRect-Overlays und ist später leicht durch Shader oder echtes Lighting ersetzbar.
+
+## Audio
+- AudioManager läuft als globales Autoload und spielt globale Platzhalter-Sounds über AudioStreamPlayer ab.
+- MP5SD nutzt einen kurzen leisen Platzhalter-Schuss-Sound.
+- Beretta M9 nutzt einen lauteren Platzhalter-Schuss-Sound.
+- Treffer auf Guards, DummyTargets und den Player lösen einen Hit-Sound aus.
+- Ein Zustandswechsel auf ALARM löst einmalig einen Alarm-Sound aus.
+- Erfolgreiche Interaktion mit ServerTerminal und LedgerFile löst optional einen simplen Interaktions-Sound aus.
+- Alle Audiodateien sind bewusst nur temporäre WAV-Platzhalter unter `assets/audio/sfx/` und später ersetzbar.
+- Es gibt kein komplexes Mixing, keine Musikproduktion und kein Spatial Audio im MVP.
 
 ## Ausrüstung
 - MP5SD: schallgedämpft, leise, kein Sound-Alarm durch Schuss
@@ -81,6 +92,7 @@ Phasenstand:
 - Phase 6: Missionsebene und Missionsziele laufen parallel zur bestehenden Guard-KI, ohne neue komplexe Teamlogik.
 - Phase 7: Guards respektieren Player-Tod weiterhin defensiv über `is_alive()`; keine neue KI-Komplexität.
 - Phase 8: Nachtatmosphäre und Nachtsicht bleiben reine Darstellungs-/Lesbarkeitsfeatures ohne KI-Einfluss.
+- Phase 9: Audio ergänzt nur Feedback, ohne neue KI-, Missions- oder Waffenlogik.
 
 Verhaltensrahmen:
 - Patrouille zwischen festen Wegpunkten
@@ -105,9 +117,10 @@ Wirkung:
 - HUD zeigt den aktuellen Alarmstatus an
 - Guards dürfen bei globalem Alarm ihre Suche auf die globale letzte bekannte Spielerposition ausrichten
 - Guards behalten trotzdem einfache lokale CHASE/ATTACK-Logik pro Instanz
+- AudioManager spielt beim Wechsel auf ALARM einmalig einen Alarm-Platzhalter-Sound
 
 Hinweis:
-- MP5SD bleibt akustisch leise und löst keinen Alarm durch Sound aus.
+- MP5SD bleibt akustisch leise genug, um keinen Sound-Alarm auszulösen.
 - Phase 5 enthält bewusst keine Verstärkung, Funklogik, Deckung oder Leichenentdeckung.
 
 ## Missionssystem

@@ -100,6 +100,7 @@ func _fire_bullet_weapon() -> void:
 	get_tree().current_scene.add_child(bullet)
 	current_weapon.consume_ammo()
 	fire_cooldown = current_weapon.fire_interval
+	_play_weapon_audio()
 
 	if current_weapon.loud and GameState != null:
 		GameState.set_last_known_player_position(global_position)
@@ -130,6 +131,17 @@ func _fire_knife_attack() -> void:
 
 	fire_cooldown = current_weapon.fire_interval
 
+func _play_weapon_audio() -> void:
+	if AudioManager == null:
+		return
+	if current_weapon == null:
+		return
+	match current_weapon.display_name:
+		"MP5SD":
+			AudioManager.play_mp5sd()
+		"Beretta M9":
+			AudioManager.play_beretta()
+
 func take_damage(amount: int) -> void:
 	if is_dead or amount <= 0:
 		return
@@ -138,6 +150,8 @@ func take_damage(amount: int) -> void:
 	print("Player hit: ", current_health, "/", max_health)
 	body_visual.color = Color(0.866667, 0.556863, 0.556863, 1)
 	emit_signal("health_changed", current_health, max_health)
+	if AudioManager != null:
+		AudioManager.play_hit()
 
 	if current_health <= 0:
 		_enter_dead_state()

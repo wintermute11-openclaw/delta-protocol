@@ -54,6 +54,12 @@ Godot 4.x
 - Nachtsicht reduziert die Dunkelheit und legt einen grünen Overlay über die Szene.
 - Es gibt bewusst kein Batterie- oder Energiesystem im MVP.
 
+## Platzhalter-Audio
+- Es gibt einfache globale Platzhalter-Sounds für MP5SD, Beretta M9, Treffer und Alarm.
+- Erfolgreiche Server-/LEDGER-Interaktionen nutzen ebenfalls einen simplen Interaktions-Sound.
+- Alle Sounds sind bewusst nur temporäre Beeps/Noise-Platzhalter und später leicht ersetzbar.
+- Es gibt keine Musik, kein komplexes Mixing und kein Spatial Audio im MVP.
+
 ## Aktueller Status
 - Phase 0 abgeschlossen: Projektstruktur, Basisdokumentation und minimale Godot-Grunddateien angelegt.
 - Phase 1 abgeschlossen: Spielerbewegung, Maus-Zielen, Kamera und Testlevel mit Kollisionen vorhanden.
@@ -64,3 +70,4 @@ Godot 4.x
 - Phase 6 abgeschlossen: Mission-Level Silent Ledger mit Serverziel, Optionalziel LEDGER-7, Exfil-Zone und Missionsstatus im HUD vorhanden.
 - Phase 7 abgeschlossen: Game-Over-Anzeige, sauberer Tod und Restart per R vom Missionsstart sind vorhanden.
 - Phase 8 abgeschlossen: Nacht-Overlay, Nachtsicht-Toggle per N und HUD-Anzeige für Night Vision ON/OFF sind vorhanden.
+- Phase 9 abgeschlossen: AudioManager, Platzhalter-Waffensounds, Treffer-Sound, Alarm-Sound und Interaktions-Sound sind vorhanden.
