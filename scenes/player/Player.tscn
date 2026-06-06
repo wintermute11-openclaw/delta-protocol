@@ -10,9 +10,9 @@ script = ExtResource("1_script")
 collision_layer = 1
 collision_mask = 1
 
-[node name="Body" type="Polygon2D" parent="."]
-color = Color(0.733333, 0.815686, 0.835294, 1)
-polygon = PackedVector2Array(18, 0, -10, -12, -4, 0, -10, 12)
+[node name="Body" type="Sprite2D" parent="."]
+centered = false
+region_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_player")

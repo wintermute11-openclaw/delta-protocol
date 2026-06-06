@@ -5,6 +5,16 @@ signal health_changed(current_health: int, max_health: int)
 
 const BulletScene = preload("res://scenes/weapons/Bullet.tscn")
 const WeaponDataScript = preload("res://scripts/weapons/weapon.gd")
+const SPRITE_CONFIG_PATH := "res://assets/sprites/player/delta_soldier_8dir.json"
+const DIRECTION_NAMES := ["e", "se", "s", "sw", "w", "nw", "n", "ne"]
+const MUZZLE_DISTANCE := 18.0
+const KNIFE_DISTANCE := 20.0
+const BODY_COLOR_NORMAL := Color(1, 1, 1, 1)
+const BODY_COLOR_HIT := Color(0.866667, 0.556863, 0.556863, 1)
+const BODY_COLOR_DEAD := Color(0.317647, 0.317647, 0.352941, 1)
+const BREATHING_SPEED := 2.2
+const BREATHING_SCALE_AMOUNT := 0.02
+const BREATHING_BOB_AMOUNT := 1.5
 
 @export var normal_speed: float = 160.0
 @export var slow_speed: float = 80.0
@@ -13,25 +23,36 @@ const WeaponDataScript = preload("res://scripts/weapons/weapon.gd")
 @onready var camera: Camera2D = $Camera2D
 @onready var muzzle: Marker2D = $Muzzle
 @onready var knife_origin: Marker2D = $KnifeOrigin
-@onready var body_visual: Polygon2D = $Body
+@onready var body_visual: Sprite2D = $Body
 
 var weapons: Dictionary = {}
 var current_weapon_slot: int = 1
-var current_weapon: WeaponData
+var current_weapon = null
 var fire_cooldown: float = 0.0
 var current_health: int = 0
 var is_dead: bool = false
+var sprite_regions: Dictionary = {}
+var sprite_anchors: Dictionary = {}
+var current_facing: String = "s"
+var current_anchor: Vector2 = Vector2.ZERO
+var breathing_time: float = 0.0
 
 func _ready() -> void:
 	camera.enabled = true
 	current_health = max_health
 	add_to_group("player")
 	_setup_weapons()
+	_load_sprite_config()
+	_update_aim(Vector2.DOWN)
+	_set_body_tint(BODY_COLOR_NORMAL)
 	_equip_weapon(1)
 	emit_signal("health_changed", current_health, max_health)
 
 func _process(delta: float) -> void:
 	fire_cooldown = max(fire_cooldown - delta, 0.0)
+	if not is_dead:
+		breathing_time += delta
+	_refresh_body_transform()
 
 	if Input.is_action_just_pressed("restart") and is_dead:
 		get_tree().reload_current_scene()
@@ -40,7 +61,8 @@ func _process(delta: float) -> void:
 	if is_dead:
 		return
 
-	look_at(get_global_mouse_position())
+	var aim_vector := get_global_mouse_position() - global_position
+	_update_aim(aim_vector)
 	_handle_weapon_switch()
 	_handle_attack_input()
 
@@ -60,6 +82,89 @@ func _setup_weapons() -> void:
 	weapons[1] = WeaponDataScript.new("MP5SD", 1, 1, 90, 0.12, false, true)
 	weapons[2] = WeaponDataScript.new("Beretta M9", 2, 1, 30, 0.3, true, true)
 	weapons[3] = WeaponDataScript.new("Knife", 3, 2, -1, 0.4, false, false, 28.0)
+
+func _load_sprite_config() -> void:
+	if not ResourceLoader.exists(SPRITE_CONFIG_PATH):
+		push_warning("Player sprite config missing: %s" % SPRITE_CONFIG_PATH)
+		return
+
+	var json_text := FileAccess.get_file_as_string(SPRITE_CONFIG_PATH)
+	var parsed: Variant = JSON.parse_string(json_text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_warning("Player sprite config is invalid JSON: %s" % SPRITE_CONFIG_PATH)
+		return
+
+	var config: Dictionary = parsed
+	var texture_path := String(config.get("texture_path", ""))
+	if not texture_path.is_empty():
+		body_visual.texture = load(texture_path)
+		body_visual.region_enabled = true
+
+	var directions: Dictionary = config.get("directions", {})
+	for direction_name in directions.keys():
+		var entry_variant: Variant = directions[direction_name]
+		if typeof(entry_variant) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_variant
+		var region_data: Array = entry.get("region", [])
+		var anchor_data: Array = entry.get("anchor", [])
+		if region_data.size() == 4:
+			sprite_regions[String(direction_name)] = Rect2(
+				float(region_data[0]),
+				float(region_data[1]),
+				float(region_data[2]),
+				float(region_data[3])
+			)
+		if anchor_data.size() == 2:
+			sprite_anchors[String(direction_name)] = Vector2(
+				float(anchor_data[0]),
+				float(anchor_data[1])
+			)
+
+	_apply_body_direction(current_facing)
+
+func _update_aim(aim_vector: Vector2) -> void:
+	if aim_vector.length_squared() <= 0.0001:
+		return
+
+	var aim_direction := aim_vector.normalized()
+	muzzle.position = aim_direction * MUZZLE_DISTANCE
+	knife_origin.position = aim_direction * KNIFE_DISTANCE
+	_apply_body_direction(_direction_name_from_vector(aim_direction))
+
+func _direction_name_from_vector(direction: Vector2) -> String:
+	var angle := wrapf(direction.angle(), 0.0, TAU)
+	var direction_index := int(round(angle / (PI / 4.0))) % DIRECTION_NAMES.size()
+	return DIRECTION_NAMES[direction_index]
+
+func _apply_body_direction(direction_name: String) -> void:
+	if not sprite_regions.has(direction_name):
+		return
+
+	var region: Rect2 = sprite_regions[direction_name]
+	body_visual.region_rect = region
+	var default_anchor := Vector2(region.size.x * 0.5, region.size.y)
+	current_anchor = sprite_anchors.get(direction_name, default_anchor)
+	current_facing = direction_name
+	_refresh_body_transform()
+
+func _refresh_body_transform() -> void:
+	if current_anchor == Vector2.ZERO:
+		return
+
+	if is_dead:
+		body_visual.scale = Vector2.ONE
+		body_visual.position = -current_anchor
+		return
+
+	var breath_wave := sin(breathing_time * TAU * BREATHING_SPEED * 0.5)
+	var scale_y := 1.0 + breath_wave * BREATHING_SCALE_AMOUNT
+	var bob_offset: float = absf(breath_wave) * BREATHING_BOB_AMOUNT
+	body_visual.scale = Vector2(1.0, scale_y)
+	body_visual.position = Vector2(-current_anchor.x, -current_anchor.y * scale_y - bob_offset)
+
+func _set_body_tint(color: Color) -> void:
+	body_visual.modulate = color
 
 func _handle_weapon_switch() -> void:
 	if Input.is_action_just_pressed("weapon_1"):
@@ -148,7 +253,7 @@ func take_damage(amount: int) -> void:
 
 	current_health = max(current_health - amount, 0)
 	print("Player hit: ", current_health, "/", max_health)
-	body_visual.color = Color(0.866667, 0.556863, 0.556863, 1)
+	_set_body_tint(BODY_COLOR_HIT)
 	emit_signal("health_changed", current_health, max_health)
 	if AudioManager != null:
 		AudioManager.play_hit()
@@ -161,7 +266,8 @@ func _enter_dead_state() -> void:
 		return
 	is_dead = true
 	velocity = Vector2.ZERO
-	body_visual.color = Color(0.317647, 0.317647, 0.352941, 1)
+	_refresh_body_transform()
+	_set_body_tint(BODY_COLOR_DEAD)
 	print("Player down")
 	emit_signal("player_died")
 

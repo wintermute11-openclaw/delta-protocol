@@ -1,5 +1,11 @@
 extends CharacterBody2D
 
+const SPRITE_CONFIG_PATH := "res://assets/sprites/enemies/delta_guard_8dir.json"
+const DIRECTION_NAMES := ["e", "se", "s", "sw", "w", "nw", "n", "ne"]
+const BODY_COLOR_NORMAL := Color(1, 1, 1, 1)
+const BODY_COLOR_HIT := Color(0.72, 0.34, 0.34, 1)
+const BODY_COLOR_DEAD := Color(0.28, 0.3, 0.34, 0.9)
+
 enum GuardState {
 	PATROL,
 	SUSPICIOUS,
@@ -20,7 +26,7 @@ enum GuardState {
 @export var attack_cooldown: float = 1.0
 @export var damage: int = 1
 
-@onready var visual: Polygon2D = $Visual
+@onready var visual: Sprite2D = $Visual
 @onready var vision_cone: Polygon2D = $VisionCone
 
 var current_state: GuardState = GuardState.PATROL
@@ -32,12 +38,18 @@ var last_known_player_position: Vector2 = Vector2.ZERO
 var has_last_known_player_position: bool = false
 var facing_direction: Vector2 = Vector2.RIGHT
 var player_ref: Node2D = null
+var sprite_regions: Dictionary = {}
+var sprite_anchors: Dictionary = {}
+var current_anchor: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	current_health = max_health
 	if patrol_points.is_empty():
 		patrol_points = [global_position]
 	player_ref = get_tree().get_first_node_in_group("player") as Node2D
+	_load_sprite_config()
+	_apply_body_direction(_direction_name_from_vector(facing_direction))
+	_set_visual_tint(BODY_COLOR_NORMAL)
 	_update_vision_cone()
 
 func _physics_process(delta: float) -> void:
@@ -60,6 +72,7 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 
 	move_and_slide()
+	_apply_body_direction(_direction_name_from_vector(facing_direction))
 	_update_vision_cone()
 
 func _patrol_state() -> void:
@@ -168,14 +181,12 @@ func _move_towards(target_position: Vector2, speed: float) -> void:
 
 	velocity = direction.normalized() * speed
 	facing_direction = direction.normalized()
-	rotation = facing_direction.angle()
 
 func _face_towards(target_position: Vector2) -> void:
 	var direction := target_position - global_position
 	if direction.length() <= 0.001:
 		return
 	facing_direction = direction.normalized()
-	rotation = facing_direction.angle()
 
 func _can_engage_player() -> bool:
 	if current_state == GuardState.DEAD:
@@ -217,16 +228,76 @@ func _change_state(new_state: GuardState) -> void:
 	match current_state:
 		GuardState.SUSPICIOUS:
 			suspicious_timer = suspicious_wait_time
+			_set_visual_tint(BODY_COLOR_NORMAL)
 		GuardState.CHASE:
-			pass
+			_set_visual_tint(BODY_COLOR_NORMAL)
 		GuardState.ATTACK:
-			pass
+			_set_visual_tint(BODY_COLOR_NORMAL)
 		GuardState.PATROL:
 			velocity = Vector2.ZERO
+			_set_visual_tint(BODY_COLOR_NORMAL)
 		GuardState.DEAD:
 			velocity = Vector2.ZERO
 
 	print(name, " state -> ", GuardState.keys()[current_state])
+
+func _load_sprite_config() -> void:
+	if not ResourceLoader.exists(SPRITE_CONFIG_PATH):
+		push_warning("Guard sprite config missing: %s" % SPRITE_CONFIG_PATH)
+		return
+
+	var json_text := FileAccess.get_file_as_string(SPRITE_CONFIG_PATH)
+	var parsed: Variant = JSON.parse_string(json_text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_warning("Guard sprite config is invalid JSON: %s" % SPRITE_CONFIG_PATH)
+		return
+
+	var config: Dictionary = parsed
+	var texture_path := String(config.get("texture_path", ""))
+	if not texture_path.is_empty():
+		visual.texture = load(texture_path)
+		visual.region_enabled = true
+		visual.centered = false
+
+	var directions: Dictionary = config.get("directions", {})
+	for direction_name in directions.keys():
+		var entry_variant: Variant = directions[direction_name]
+		if typeof(entry_variant) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_variant
+		var region_data: Array = entry.get("region", [])
+		var anchor_data: Array = entry.get("anchor", [])
+		if region_data.size() == 4:
+			sprite_regions[String(direction_name)] = Rect2(
+				float(region_data[0]),
+				float(region_data[1]),
+				float(region_data[2]),
+				float(region_data[3])
+			)
+		if anchor_data.size() == 2:
+			sprite_anchors[String(direction_name)] = Vector2(
+				float(anchor_data[0]),
+				float(anchor_data[1])
+			)
+
+func _direction_name_from_vector(direction: Vector2) -> String:
+	if direction.length_squared() <= 0.0001:
+		return "e"
+	var angle := wrapf(direction.angle(), 0.0, TAU)
+	var direction_index := int(round(angle / (PI / 4.0))) % DIRECTION_NAMES.size()
+	return DIRECTION_NAMES[direction_index]
+
+func _apply_body_direction(direction_name: String) -> void:
+	if not sprite_regions.has(direction_name):
+		return
+	var region: Rect2 = sprite_regions[direction_name]
+	visual.region_rect = region
+	var default_anchor := Vector2(region.size.x * 0.5, region.size.y)
+	current_anchor = sprite_anchors.get(direction_name, default_anchor)
+	visual.position = -current_anchor
+
+func _set_visual_tint(color: Color) -> void:
+	visual.modulate = color
 
 func _update_vision_cone() -> void:
 	var forward := facing_direction.normalized()
@@ -260,15 +331,17 @@ func take_damage(amount: int) -> void:
 		return
 
 	current_health -= amount
-	visual.color = Color(0.529412, 0.176471, 0.176471, 1)
+	_set_visual_tint(BODY_COLOR_HIT)
 	if AudioManager != null:
 		AudioManager.play_hit()
 
 	if current_health <= 0:
 		_enter_dead_state()
+	elif current_state == GuardState.PATROL:
+		_set_visual_tint(BODY_COLOR_NORMAL)
 
 func _enter_dead_state() -> void:
 	_change_state(GuardState.DEAD)
-	visual.color = Color(0.211765, 0.211765, 0.235294, 0.85)
+	_set_visual_tint(BODY_COLOR_DEAD)
 	vision_cone.visible = false
 	modulate = Color(1, 1, 1, 0.8)
